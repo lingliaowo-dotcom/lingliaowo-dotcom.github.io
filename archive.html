@@ -270,6 +270,9 @@ function main(){
     log.style.cssText = "color:#7f8ea3;margin-top:14px;letter-spacing:1px;font-size:12px";
     log.textContent = "档案系统日志 · 最后一条：本档案曾于「第八日」被访问。访问者：（空白）";
     const r = $("result8"); if (r) r.appendChild(log);
+    $("popGo").style.pointerEvents = "none";
+    setTimeout(() => { document.body.classList.add("flash"); }, 2600);
+    setTimeout(() => { location.href = "echo8.html"; }, 3000);
   };
 
   /* 随身物品：打印纸 → 亥时祈愿 */
