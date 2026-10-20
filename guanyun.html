@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>青云观 — 有求必应</title>
+<!-- 青云观没有第八签。从来没有。 -->
+<link rel="stylesheet" href="assets/style.css?v=93">
+<style>
+  body{background:#e0dbc9;font-family:"Songti SC","Noto Serif SC",serif}
+  .paper{max-width:720px;margin:0 auto;padding:30px 22px 90px}
+  .oldhdr{
+    text-align:center;padding:26px 0 14px;border-bottom:3px double #b5ad99;
+  }
+  .oldhdr h1{color:#5d5648;font-size:34px;letter-spacing:16px;font-weight:600}
+  .oldhdr .slogan{color:#5a6a84;font-size:12px;letter-spacing:5px;margin-top:8px}
+  .marquee{
+    overflow:hidden;border:1px solid #b3ab97;margin:14px 0;padding:6px 0;background:#e1dbca;
+  }
+  .marquee span{color:#6d80a0;font-size:12.5px;letter-spacing:3px;white-space:nowrap;display:inline-block;animation:mq 26s linear infinite}
+  @keyframes mq{from{transform:translateX(60vw)}to{transform:translateX(-100%)}}
+  .sect{border:1px solid #b3ab97;background:#e1dbca;margin:22px 0;padding:22px 26px;border-radius:4px}
+  .sect h2{color:#484238;font-size:17px;letter-spacing:6px;margin-bottom:10px;border-left:3px solid #bbb39e;padding-left:12px}
+  .askbtns{display:flex;gap:14px;flex-wrap:wrap;margin-top:8px}
+  .askbtn{
+    background:#e2ddcc;border:1px solid #b5ad99;color:#544e42;padding:10px 22px;
+    font-size:15px;letter-spacing:4px;border-radius:3px;
+  }
+  .askbtn:hover{border-color:#c4bda7;color:#665e4f}
+  #qianResult{margin-top:18px;min-height:96px}
+  .qhead{color:#4f8f8b;font-size:20px;letter-spacing:8px}
+  .qtext{color:#484238;margin-top:10px;letter-spacing:2px;white-space:pre-line}
+  .qtext.bad{color:#353029}
+  #moji{
+    font-family:var(--mono);color:#42536f;font-size:14px;line-height:2;word-break:break-all;
+    cursor:pointer;user-select:none;margin-top:14px;padding:14px;border:1px dashed #b3ab97;
+  }
+  #moji:hover{border-color:#bbb39e}
+  #moji.clr{color:#5d5648;border-color:#c5bea8}
+  .grid8{display:grid;grid-template-columns:repeat(8,1fr);gap:3px;margin-top:12px}
+  .cell{
+    aspect-ratio:1;background:#e2dccb;border:1px solid #b2aa96;color:#42536f;
+    font-size:10px;display:flex;align-items:center;justify-content:center;letter-spacing:0;
+  }
+  .cell.hi{border-color:#c4bda7;color:#484238;cursor:pointer;box-shadow:inset 0 0 8px rgba(74,125,214,.12);position:relative}
+  .cell.hi .num{
+    position:absolute;right:2px;bottom:1px;font-size:8px;color:#3d4f73;
+    font-family:var(--mono);line-height:1;
+  }
+  .cell.hi:hover .num{color:#312d26}
+  .cell.hi.done{background:#e4decd;color:#5d5648;border-color:#c5bea8}
+  .cell.hi.done .num{color:#4f8f8b}
+  .lushu{color:#5a6a84;font-size:12.5px;letter-spacing:2px;margin-top:10px}
+  .stickpit{text-align:center;margin-top:6px;position:relative;display:inline-block;padding:0 30px}
+  /* 竹签：细、有竹节、高低错落 */
+  .stick{
+    display:inline-block;width:5px;background:linear-gradient(90deg,#9a7d55,#c9ab77 45%,#8a6f4d);
+    border-radius:3px;margin:0 3px;position:relative;bottom:-2px;
+    box-shadow:0 2px 4px rgba(0,0,0,.5);vertical-align:bottom;
+  }
+  .stick::before{ /* 竹节 */
+    content:"";position:absolute;left:0;right:0;top:26%;height:1px;background:rgba(74,56,34,.55);
+  }
+  .stick::after{
+    content:"";position:absolute;left:0;right:0;top:62%;height:1px;background:rgba(74,56,34,.4);
+  }
+  /* 签筒：梯形木筒，接住签 */
+  .pitcup{
+    width:120px;height:46px;margin:-8px auto 0;position:relative;
+    background:linear-gradient(#ebe7d7,#e7e2d2);
+    border-radius:8px 8px 12px 12px;
+    box-shadow:inset 0 4px 8px rgba(0,0,0,.55), 0 6px 14px rgba(0,0,0,.5);
+    border:1px solid #b2aa96;
+  }
+  .pitcup::before{ /* 筒口沿 */
+    content:"";position:absolute;top:-4px;left:-4px;right:-4px;height:10px;
+    background:linear-gradient(#eee9da,#e9e4d4);border-radius:6px;border:1px solid #b2aa96;
+  }
+  .pitcup::after{ /* 筒身上的「青云观」刻字 */
+    content:"青 云 观";position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);
+    color:rgba(222,205,175,.5);font-size:11px;letter-spacing:4px;text-align:center;
+  }
+  .censer-big{
+    width:120px;height:86px;margin:8px auto;position:relative;cursor:pointer;
+  }
+  .censer-big .body{
+    position:absolute;bottom:0;left:15px;width:90px;height:44px;background:#e3decd;
+    border:2px solid #b5ad99;border-radius:0 0 40px 40px;
+  }
+  .censer-big .leg{position:absolute;bottom:-10px;width:10px;height:12px;background:#e3decd;border:1px solid #b5ad99}
+  .censer-big .ash{position:absolute;bottom:44px;left:22px;width:76px;height:12px;background:#e5e0cf;border-radius:4px}
+  .censer-big .smoke{
+    position:absolute;bottom:56px;left:58px;width:2px;height:40px;
+    background:linear-gradient(to top,rgba(174,191,216,.5),rgba(174,191,216,0));
+    filter:blur(1px);animation:smoke 6s ease-in-out infinite;
+  }
+  @keyframes smoke{0%,100%{transform:translateX(-2px) scaleY(1)}50%{transform:translateX(4px) scaleY(1.2)}}
+  .censer-big:hover .smoke{height:52px}
+  /* 摇签筒抖动 */
+  @keyframes shake{0%,100%{transform:rotate(0)}18%{transform:rotate(-4deg)}36%{transform:rotate(4deg)}54%{transform:rotate(-3deg)}72%{transform:rotate(3deg)}86%{transform:rotate(-1deg)}}
+  .stickpit.shake{animation:shake .5s ease}
+  /* 签纸：真签文有红头 */
+  #paperSlip::before{
+    content:"青云观灵签";display:block;font-size:11px;letter-spacing:6px;
+    color:#a03a32;border-bottom:1px solid #c9b8a8;padding-bottom:6px;margin-bottom:8px;
+  }
+  #paperSlip{
+    display:none;background:#dfe5ee;color:#3a3f4a;padding:14px 20px;margin:14px auto;
+    max-width:380px;font-size:14px;letter-spacing:3px;text-align:center;transform:rotate(-1.5deg);
+    box-shadow:0 8px 24px rgba(0,0,0,.5);border-radius:2px;
+  }
+  .gate{margin-top:8px;display:flex;gap:10px;justify-content:center;align-items:center;flex-wrap:wrap}
+  .gate input{max-width:220px;text-align:center}
+  .foot{color:#33415e;font-size:11.5px;text-align:center;margin-top:44px;letter-spacing:2px}
+  .foot a{color:#33415e}
+</style>
+<link rel="stylesheet" href="assets/skin-bbs.css?v=93"></head>
+<body>
+<div class="moon"></div>
+<div class="pagenav">
+  <button class="corner" id="toSearch">搜 搜</button>
+</div>
+
+<div class="paper">
+  <div class="oldhdr">
+    <h1>青 云 观</h1>
+    <div class="slogan">有求必应 · 在线问签 第 8 版</div>
+  </div>
+
+  <div class="marquee"><span>本观已无住持 · 签文仅供娱乐 · 心诚则灵 · 心不诚亦灵 · 本观已无住持 · 签文仅供娱乐 · 心诚则灵</span></div>
+
+  <!-- 四问 -->
+  <div class="sect">
+    <h2>问 事</h2>
+    <div class="askbtns">
+      <button class="askbtn" data-ask="yuan">问 缘</button>
+      <button class="askbtn" data-ask="cai">问 财</button>
+      <button class="askbtn" data-ask="shou">问 寿</button>
+      <button class="askbtn" data-ask="ji">问 己</button>
+    </div>
+    <div id="qianResult"></div>
+    <div id="moji" style="display:none"></div>
+  </div>
+
+  <!-- 求签 -->
+  <div class="sect">
+    <h2>求 签</h2>
+    <div class="stickpit" id="pit">
+    </div>
+    <div class="center" style="margin-top:14px">
+      <button class="askbtn" id="pullBtn">摇 签 筒</button>
+    </div>
+    <div id="qianResult8" class="qtext center" style="margin-top:16px"></div>
+  </div>
+
+  <!-- 香炉 -->
+  <div class="sect center">
+    <h2 style="text-align:left">香 炉</h2>
+    <div class="censer-big" id="censer">
+      <div class="smoke"></div><div class="ash"></div>
+      <div class="body"></div>
+      <div class="leg" style="left:25px"></div><div class="leg" style="left:55px"></div><div class="leg" style="left:85px"></div>
+    </div>
+    <div class="small">拨一拨香灰</div>
+    <div id="paperSlip">亥时，倒影自渡。</div>
+  </div>
+
+  <!-- 观貌 -->
+  <div class="sect">
+    <h2>本 观 旧 照</h2>
+    <div style="text-align:center">
+      <img src="assets/media/temple.png" alt="青云观旧照" style="max-width:100%;border-radius:4px;border:1px solid #b3ab97;filter:saturate(.8)">
+      <div class="small" style="margin-top:8px;letter-spacing:1px">摄于 2025-08-08 亥时三刻 · 最后一张有香灰的照片</div>
+    </div>
+  </div>
+
+  <!-- 观星阁 -->
+  <div class="sect">
+    <h2>观 星 阁</h2>
+    <p class="small" style="letter-spacing:1px">方图之中，有八格微亮。旧年的刻痕还留在格角上——自一起，至九止（中五不用），按刻痕的数目依次点过去。</p>
+    <div class="grid8" id="grid"></div>
+    <div class="lushu">洛书曰：戴九履一，左三右七，二四为肩，六八为足。</div>
+    <div class="small" style="color:#4a5568;margin-top:6px">规矩忘了？老规矩：拿去「搜搜」里查。</div>
+    <div id="luoshuOut" class="qtext center" style="letter-spacing:10px;font-size:19px;margin-top:14px;min-height:28px"></div>
+  </div>
+
+  <!-- 出口 -->
+  <div class="sect center" id="gateSect" style="display:none">
+    <h2 style="text-align:left">观 门</h2>
+    <p class="small" style="margin-bottom:14px">门上有锁。钥匙是四个字。</p>
+    <div class="gate">
+      <input type="text" id="keyInput" placeholder="输入钥匙" autocomplete="off">
+      <button class="askbtn" id="keyBtn">开 门</button>
+    </div>
+    <div class="small" id="keyTip" style="margin-top:10px;min-height:18px"></div>
+  </div>
+
+  <div class="foot">青云观 © 2025 · <a href="#" onclick="return false">关于本观</a> · <a href="#" onclick="return false">住持介绍</a> · 访问量 8</div>
+</div>
+
+<div id="envhint"></div>
+<script src="assets/game.js?v=93"></script>
+<script>
+if (DJ.gate(3)) main();
+function main(){
+  DJ.revisit("guanyun");
+  DJ.unlock(3);
+  const $ = id => document.getElementById(id);
+
+  /* ---------- C11：问缘问财问寿皆大吉，签文皆孤 ---------- */
+  const luckyTexts = [
+    "第六签 · 上吉\n所爱隔山海，山海皆可平。\n唯君独立处，无人问归程。\n解曰：诸事皆宜。宜远行，宜断舍，宜不告而别。",
+    "第十七签 · 上吉\n财自八方来，尽入君囊中。\n囊中无一物，可换一盏灯。\n解曰：大吉。只是吉的不是你。",
+    "第三九签 · 上吉\n寿比南山石，石烂君犹在。\n在者无一亲，遥祭自己身。\n解曰：长寿。勿念。"
+  ];
+  let luckyIdx = 0;
+  document.querySelectorAll(".askbtn[data-ask]").forEach(b => {
+    b.onclick = () => {
+      DJ.sfx.click();
+      const out = $("qianResult");
+      if (b.dataset.ask === "ji"){ askJi(); return; }
+      out.innerHTML = `<div class="qhead">上 吉</div><div class="qtext">${luckyTexts[luckyIdx++ % luckyTexts.length]}</div>`;
+      DJ.flag("saw_lucky");
+    };
+  });
+
+  /* ---------- C12：问己 → 乱码 → 三击还原 ---------- */
+  const secret = "你抽到的不是卦，是你自己。";
+  let mojiText = "", clicks = 0;
+  try {
+    const bytes = new TextEncoder().encode("签文解析失败。 " + secret + " 请联系住持。住持已离观。");
+    mojiText = new TextDecoder("gbk").decode(bytes);
+  } catch(e){ mojiText = "锟斤拷锟斤拷锟斤拷锟届煡锟斤拷锟斤拷锟斤拷锟斤拷拷锟斤拷"; }
+  function askJi(){
+    $("qianResult").innerHTML = `<div class="qhead" style="color:#42536f">？ ？ ？</div>`;
+    const m = $("moji"); m.style.display = "block";
+    m.classList.remove("clr");
+    m.textContent = mojiText;
+    m.onclick = () => {
+      clicks++; DJ.sfx.type();
+      if (clicks === 1){ m.textContent = mojiText.slice(0, Math.floor(mojiText.length*0.55)) + "……"; }
+      else if (clicks === 2){ m.textContent = secret.slice(0,6) + "……"; }
+      else {
+        m.classList.add("clr");
+        m.textContent = secret;
+        DJ.sfx.read(); DJ.flag("saw_self_gua"); DJ.addIncense(1);
+        setTimeout(openGate, 1200);
+      }
+    };
+  }
+
+  /* ---------- C14/C16：摇签，第 8 次必出第八签 ---------- */
+  let pulls = 0;
+  const pit = $("pit");
+  /* 竹签高低错落：9 支，中间略高，各有微倾 */
+  const stickH = [58, 70, 64, 76, 82, 74, 66, 72, 60];
+  const stickTilt = [-3, 2, -1, 3, 0, -2, 1, 3, -2];
+  stickH.forEach((h, i) => {
+    const s = document.createElement("i"); s.className = "stick";
+    s.style.height = h + "px";
+    s.style.transform = `rotate(${stickTilt[i]}deg)`;
+    pit.appendChild(s);
+  });
+  const cup = document.createElement("div"); cup.className = "pitcup"; pit.appendChild(cup);
+  const normalQian = ["第一签 · 平。解曰：不必解。","第七签 · 小吉。行路遇雨，带伞则安。解曰：伞在观里。你来晚了。","第廿三签 · 中平。解曰：勿问。","第五五签 · 上吉。所求皆妄，所遇皆缘。解曰：缘已用尽。"];
+  $("pullBtn").onclick = () => {
+    DJ.sfx.pull();
+    pit.classList.add("shake"); setTimeout(()=>pit.classList.remove("shake"), 450);
+    pulls++;
+    const out = $("qianResult8");
+    if (pulls < 8){
+      out.textContent = normalQian[pulls % normalQian.length];
+      if (pulls === 6) out.textContent = "第七签：小吉。……这一次，真的不是第八签。";
+    } else {
+      out.innerHTML =
+`<span class="qhead" style="color:#544e42">第 八 签</span>
+签文：孩童持签，立于观前。
+　　　签上只余两字：大吉。
+　　　有人笑着说：大吉，往后的日子都是好的。
+　　　三日后，观中白布起。
+　　　——此签不许愿，不化灾，不退财。
+　　　它只是想有人知道这件事。`;
+      DJ.flag("saw_8_qian"); DJ.addIncense(2); DJ.sfx.read();
+      setTimeout(openGate, 1500);
+    }
+  };
+
+  /* ---------- C15：香炉纸条 ---------- */
+  let dug = false;
+  $("censer").onclick = () => {
+    DJ.sfx.type();
+    if (!dug){
+      dug = true;
+      $("paperSlip").style.display = "block";
+      document.querySelector(".censer-big .ash").style.background = "#e7e2d1";
+      document.querySelector(".censer-big .ash").style.boxShadow = "inset 0 2px 6px rgba(0,0,0,.7)";
+      DJ.flag("found_slip"); DJ.addIncense(1);
+      setTimeout(openGate, 800);
+      /* 灰里的刻痕：拨开纸条的位置，八道，等宽，像数出来的 */
+      const mark = document.createElement("div");
+      mark.className = "small"; mark.style.marginTop = "8px"; mark.style.letterSpacing = "2px";
+      mark.textContent = "纸条拿走后，灰底上留着刻痕。数了数，八道。";
+      document.querySelector(".censer-big").after(mark);
+    } else {
+      $("paperSlip").textContent = DJ.rvOf("guanyun") >= 2
+        ? "灰下面又露出一张新的。只写了一句：『你上次也翻过这里。』"
+        : "灰还是灰。纸条已经拿走了。";
+    }
+  };
+
+  /* ---------- C13：六十四卦方图 · 洛书序列 ---------- */
+  const guaNames = ["乾","坤","屯","蒙","需","讼","师","比","小畜","履","泰","否","同人","大有","谦","豫","随","蛊","临","观","噬嗑","贲","剥","复","无妄","大畜","颐","大过","坎","离","咸","恒","遁","大壮","晋","明夷","家人","睽","蹇","解","损","益","夬","姤","萃","升","困","井","革","鼎","震","艮","渐","归妹","丰","旅","巽","兑","涣","节","中孚","小过","既济","未济"];
+  const grid = $("grid");
+  // 洛书数字到 8x8 格子的位置（分散放置）
+  const hiPos = {1:[7,0], 2:[0,2], 3:[4,0], 4:[0,4], 6:[7,7], 7:[4,7], 8:[7,5], 9:[0,7]};
+  const needOrder = [1,2,3,4,6,7,8,9];
+  const secretChars = ["白","蝶","为","钥"];
+  let seq = [];
+  const cells = [];
+  for (let r = 0; r < 8; r++){
+    for (let c = 0; c < 8; c++){
+      const d = document.createElement("div"); d.className = "cell";
+      const key = Object.keys(hiPos).find(k => hiPos[k][0] === r && hiPos[k][1] === c);
+      if (key){
+        d.classList.add("hi");
+        d.textContent = guaNames[Math.floor(Math.random()*guaNames.length)].slice(0,2);
+        /* 亮格右下角刻着极小的洛书数字——像旧刻痕，不留意看不出来 */
+        const num = document.createElement("i");
+        num.className = "num"; num.textContent = key;
+        d.appendChild(num);
+        d.dataset.n = key;
+        cells.push(d);
+      } else {
+        d.textContent = "·";
+      }
+      grid.appendChild(d);
+    }
+  }
+  const out = $("luoshuOut");
+  cells.forEach(cell => {
+    cell.onclick = () => {
+      const n = parseInt(cell.dataset.n);
+      const expect = needOrder[seq.length];
+      if (n === expect){
+        seq.push(n); cell.classList.add("done"); DJ.sfx.type();
+        const ch = secretChars[Math.min(Math.floor((seq.length-1)/2), 3)];
+        // 8 格 → 4 字：每两格亮出一个字
+        out.textContent = secretChars.slice(0, Math.ceil(seq.length/2)).join("");
+        if (seq.length === 8){
+          DJ.flag("saw_luoshu"); DJ.addIncense(1); DJ.sfx.read();
+          out.textContent = "白蝶为钥";
+          setTimeout(openGate, 1000);
+        }
+      } else {
+        seq = []; DJ.sfx.err();
+        cells.forEach(c => c.classList.remove("done"));
+        out.textContent = "（序乱了。洛书不认。）";
+      }
+    };
+  });
+
+  /* ---------- 出口 ---------- */
+  let gateOpened = false;
+  function openGate(){ $("gateSect").style.display = "block"; }
+  $("keyBtn").onclick = () => {
+    const v = $("keyInput").value.trim().toLowerCase().replace(/\s/g,"");
+    if (["白蝶","baidie","白蝶为钥","baidieyaoyao"].includes(v) || v.includes("白蝶")){
+      DJ.sfx.ok(); DJ.unlock(4); DJ.flag("saw_charm");
+      $("keyTip").innerHTML = `门开了一条缝。里面黑。<br>你把门推开。正殿没有人，长明灯还亮着。<br>求签的案上压着一摞黄色平安符，印版已经很旧了：一个人骑在虎背上，举着剑，云里悬着一枚小印。印版磨得看不清眉目，只认得出那只虎。<br>每张符的角上都有两个小字：<b>大吉</b>。<br>廊下挂满了还愿牌，大多旧得发白。最新的一块，字迹还很新：<br>「谢谢无量师父。茶很好。下次我还来。」<br><span style="color:#6b7688">（风从你身后灌进来。殿门正在缓缓合上——）</span>`;
+      if (!window.__dajiWalking){
+        window.__dajiWalking = true;
+        setTimeout(() => { document.body.style.transition = "opacity .8s"; document.body.style.opacity = "0"; }, 7000);
+        setTimeout(() => location.href = "oracle.html", 8000);
+      }
+    } else {
+      $("keyTip").textContent = "锁没动。";
+      DJ.sfx.err();
+    }
+  };
+  $("keyInput").addEventListener("keydown", e => { if (e.key === "Enter") $("keyBtn").click(); });
+  $("toSearch").onclick = () => location.href="search.html";
+
+  /* ---------- 断点续玩：离开再回来，进度原样恢复，绝不回到原点 ---------- */
+  (function restore(){
+    const R = DJ.state.flags;
+    const q8 = `<span class="qhead" style="color:#544e42">第 八 签</span>
+签文：孩童持签，立于观前。
+　　　签上只余两字：大吉。
+　　　有人笑着说：大吉，往后的日子都是好的。
+　　　三日后，观中白布起。
+　　　——此签不许愿，不化灾，不退财。
+　　　它只是想有人知道这件事。`;
+    if (R.saw_8_qian){ pulls = 8; $("qianResult8").innerHTML = q8; }
+    if (R.found_slip){ dug = true; $("paperSlip").style.display = "block"; }
+    if (R.saw_self_gua){ const m = $("moji"); m.style.display = "block"; m.classList.add("clr"); m.textContent = secret; }
+    if (R.saw_luoshu){ cells.forEach(c => c.classList.add("done")); $("luoshuOut").textContent = "白蝶为钥"; $("keyInput").value = "白蝶"; $("keyTip").textContent = "观门记得你。直接进去吧。"; }
+    if (R.saw_8_qian || R.saw_self_gua || R.found_slip || R.saw_luoshu) openGate();
+  })();
+
+  /* 环境提示 */
+  DJ.envHint("签都是大吉。吉得让人心里发凉。但『问己』这一支，好像不太一样。", "gy1", 90);
+  DJ.envHint("乱码这种东西，往往是好的东西，被穿错了衣服。多点几下。", "gy2", 200);
+  DJ.envHint("观星阁的八格，角上有刻痕。从一走到九，别踩中五。", "gy3", 320);
+  DJ.envHint("数一数你摇了几次签。", "gy4", 440);
+
+  DJ.injectDivine({
+    clear:[ "上上签：问己。三次。乱码不咬人。",
+            "上上签：洛书从一走起。中宫之五，不必经过。",
+            "上上签：摇到第八次，签筒自己会认得你。",
+            "上上签：钥匙两个字。会飞。"],
+    poetic:["中平签：镜不自照，因物而形。", "中平签：大吉者，未必吉。"],
+    empty:[ "下下签：香灰都比你先动。", "下下签：再问也是这支签。" ]
+  });
+}
+</script>
+</body>
+</html>

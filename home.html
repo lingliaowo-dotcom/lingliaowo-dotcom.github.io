@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>大吉论坛</title>
+<link rel="stylesheet" href="assets/style.css?v=93">
+<style>
+  body{background:#04070d;display:flex;align-items:center;justify-content:center;min-height:100vh}
+  .gate{text-align:center;padding:40px 24px;max-width:560px}
+  .wing svg{display:block;margin:0 auto}
+  h1{color:#e8edf5;font-weight:300;font-size:34px;letter-spacing:18px;margin:34px 0 0;text-indent:18px}
+  .sub{color:#42536f;font-size:12.5px;letter-spacing:4px;margin-top:18px;line-height:2.2}
+  .sub b{color:#6d80a0;font-weight:400}
+  #enter{
+    margin-top:52px;background:none;border:1px solid #2c3a52;color:#aebfd8;
+    padding:14px 64px;font-size:15px;letter-spacing:10px;text-indent:10px;cursor:pointer;
+    font-family:inherit;transition:border-color .4s,color .4s;border-radius:2px;
+  }
+  #enter:hover{border-color:#4a7dd6;color:#e8edf5}
+  #saveNote{color:#33415e;font-size:11px;letter-spacing:2px;margin-top:26px;min-height:18px}
+  .foot{position:fixed;bottom:22px;left:0;right:0;text-align:center;
+    color:#1c2c4a;font-size:10.5px;letter-spacing:3px}
+</style>
+</head>
+<body>
+
+<div class="gate">
+  <div class="wing">
+    <svg width="72" height="72" viewBox="0 0 24 24">
+      <g fill="#dfe5ee">
+        <path d="M12 12 C9 6, 3 5, 3 10 C3 14, 8 14, 11 12.5 Z"/>
+        <path d="M12 12 C15 6, 21 5, 21 10 C21 14, 16 14, 13 12.5 Z"/>
+        <ellipse cx="12" cy="11.4" rx="1.2" ry="3.2"/>
+      </g>
+    </svg>
+  </div>
+  <h1>大吉论坛</h1>
+  <div class="sub">
+    未读 <b>(38)</b> · 最后访问：八年前<br>
+    这里所有的帖子，都只在等一个人。
+  </div>
+  <button id="enter">进 入</button>
+  <div id="saveNote"></div>
+</div>
+
+<div class="foot">建议：深夜 · 耳机 · 一个人</div>
+
+<script src="assets/game.js?v=93"></script>
+<script>
+(function(){
+  const $ = id => document.getElementById(id);
+
+  /* 有存档：给一句不动声色的提示（继续/重开交给序章自己处理） */
+  const NAMES = { 1:"错位的起源", 2:"未读", 3:"青云观", 4:"赛博仙人", 5:"大吉论坛", 6:"流水账",
+                  7:"卷毛猫", 8:"第八楼", 9:"面具", 10:"档案室", 11:"镜中人", 12:"顺其自然" };
+  try {
+    if (DJ.state.name){
+      if (DJ.state.done){
+        $("saveNote").textContent = "你已经走完过一遍。它还记得你。";
+      } else {
+        const ch = Math.min(DJ.state.chapter || 1, 12);
+        $("saveNote").textContent = "你上次走到：第 " + ch + " 章「" + NAMES[ch] + "」。它在原地等。";
+      }
+    }
+  } catch (e) {}
+
+  $("enter").onclick = () => {
+    DJ.sfx.click();
+    document.body.style.transition = "opacity .8s";
+    document.body.style.opacity = 0;
+    setTimeout(() => location.href = "index.html", 800);
+  };
+})();
+</script>
+</body>
+</html>
