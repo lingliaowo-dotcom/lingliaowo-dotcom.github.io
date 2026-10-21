@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>第八茶室 — 在线 8 人</title>
-<link rel="stylesheet" href="assets/style.css?v=95">
+<link rel="stylesheet" href="assets/style.css?v=96">
 <style>
   body{background:#dfd9c7;font-family:"Courier New","PingFang SC",monospace;color:#4a443a;overflow-x:hidden}
   .o-wrap{max-width:640px;margin:0 auto;padding:5vh 18px 90px;min-height:88vh}
@@ -68,7 +68,7 @@
     text-decoration:none;border-bottom:1px solid #33415e;padding-bottom:4px}
   #escEnd a:hover{color:#c9d6ea}
 </style>
-<link rel="stylesheet" href="assets/skin-bbs.css?v=95"></head>
+<link rel="stylesheet" href="assets/skin-bbs.css?v=96"></head>
 <body>
 <div class="o-wrap">
   <div class="o-head">
@@ -106,7 +106,7 @@
 </div>
 
 <div id="envhint"></div>
-<script src="assets/game.js?v=95"></script>
+<script src="assets/game.js?v=96"></script>
 <script>
 if (DJ.gate(4)) main();
 function main(){
@@ -149,6 +149,8 @@ function main(){
       $("escape").appendChild(s);
     }
     setTimeout(()=> $("escEnd").classList.add("on"), 6800);
+    /* 游戏结束谢幕 4.4 秒后：你逃不掉，也逃不出这个世界——送去作者的主页 */
+    setTimeout(()=> { try { location.href = "https://space.bilibili.com/11015701"; } catch(e){} }, 11200);
   }
   function bindName(d, orig){
     d.className = (d.className ? d.className + " " : "") + "name";

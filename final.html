@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>　</title>
-<link rel="stylesheet" href="assets/style.css?v=95">
+<link rel="stylesheet" href="assets/style.css?v=96">
 <style>
   body{background:#04070d}
   .stage{transition:opacity 1.2s}
@@ -74,7 +74,7 @@
     他找了那么久的灵魂共鸣者，<br>
     一直在镜子里，陪他熬过了每一个 08:08。<br>
     <br>
-    <a href="chat.html">回到未读</a><br>
+    <a id="backRead" href="chat.html">回到未读</a><br>
     <br>
     <span id="saveCard" style="display:none;color:#aebfd8;border:1px solid #2c3a52;border-radius:3px;
       padding:7px 22px;cursor:pointer;letter-spacing:4px">◈ 保存一张卡片，替他发出去</span>
@@ -82,12 +82,17 @@
 </div>
 
 <div id="envhint"></div>
-<script src="assets/game.js?v=95"></script>
+<script src="assets/game.js?v=96"></script>
 <script>
 const PEEK = location.search.indexOf("peek") !== -1; /* 主页彩蛋：不写存档，直接看结尾 */
 if (PEEK || DJ.gate(12)) main();
 function main(){
   if (!PEEK) DJ.unlock(12);
+  if (PEEK){ /* 参观者没有进度，「回到未读」会被第 2 章门禁弹回序章，改回主页 */
+    const bl = document.getElementById("backRead");
+    bl.href = "home.html";
+    bl.textContent = "回到主页";
+  }
   const $ = id => document.getElementById(id);
 
   /* ---------- 阶段一：顺其自然，永远错误 ---------- */

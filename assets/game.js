@@ -63,6 +63,11 @@ const DJ = (() => {
     } catch (err) {}
   }
 
+  /* 主线十二站映射：门禁拦截时直接送回玩家当前所在的一站，不再闪序章 */
+  const CHAPTER_PAGES = { 0:"prologue.html", 1:"dial.html", 2:"chat.html", 3:"guanyun.html",
+    4:"oracle.html", 5:"forum.html", 6:"ledger.html", 7:"adopt.html", 8:"cloud.html",
+    9:"mask.html", 10:"archive.html", 11:"echo8.html", 12:"final.html" };
+
   const api = {
     state: s,
     save,
@@ -82,11 +87,12 @@ const DJ = (() => {
     },
     rvOf(key) { return (s.rv && s.rv[key]) || 0; },
     addIncense(n) { s.incense = Math.max(0, s.incense + n); save(); },
-    /** 页面门禁：只能按 1→12 的顺序进入；还没走到的章节一律送回序章 */
+    /** 页面门禁：只能按 1→12 的顺序进入；没走到的章节直接送回当前所在的一站，不再闪序章 */
     gate(ch) {
       installBackGuard(ch);
       if ((s.chapter || 0) >= ch) return true;
-      try { location.replace("prologue.html?locked=1"); } catch (e) {}
+      const cur = Math.min(12, Math.max(0, s.chapter || 0));
+      try { location.replace(CHAPTER_PAGES[cur] || "prologue.html"); } catch (e) {}
       return false;
     },
     /** 支线页：不设章节门禁，随时可进；只保留返回拦截与论坛顶条 */
