@@ -64,7 +64,7 @@
 (function(){
   const $ = id => document.getElementById(id);
 
-  /* 有存档：给一句不动声色的提示（继续/重开交给序章自己处理） */
+  /* 有存档：给一句不动声色的提示（进入后一律从序章按顺序开始） */
   const NAMES = { 1:"错位的起源", 2:"未读", 3:"青云观", 4:"赛博仙人", 5:"大吉论坛", 6:"流水账",
                   7:"卷毛猫", 8:"第八楼", 9:"面具", 10:"档案室", 11:"镜中人", 12:"顺其自然" };
   try {
@@ -73,7 +73,7 @@
         $("saveNote").textContent = "你已经走完过一遍。它还记得你。";
       } else {
         const ch = Math.min(DJ.state.chapter || 1, 12);
-        $("saveNote").textContent = "你上次走到：第 " + ch + " 章「" + NAMES[ch] + "」。它在原地等。";
+        $("saveNote").textContent = "你上次走到：第 " + ch + " 章「" + NAMES[ch] + "」。这次要从序章重新开始。";
       }
     }
   } catch (e) {}
