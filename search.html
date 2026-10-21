@@ -229,7 +229,7 @@ function main(){
   $("go").onclick = doSearch;
   $("q").addEventListener("keydown", e => { if (e.key === "Enter") doSearch(); });
   /* 返回 = 浏览器后退：从哪来的回哪去，这是真浏览器的行为 */
-  $("backChat").onclick = () => { DJ.sfx.click(); if (history.length > 1) history.back(); else location.href = "index.html"; };
+  $("backChat").onclick = () => { DJ.sfx.click(); if (history.length > 1) history.back(); else location.href = "prologue.html"; };
 
   /* ---- 搜索联想：只联想玩家真正在别处见过的词。见得越多，联想越多 ---- */
   const suggPool = [];

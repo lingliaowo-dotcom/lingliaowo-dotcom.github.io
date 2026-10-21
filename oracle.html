@@ -17,6 +17,9 @@
   .o-users .h{color:#4a5568;letter-spacing:2px;margin-bottom:8px}
   .o-users div{padding:3px 0;letter-spacing:1px}
   .o-users div.dim{color:#333e52}
+  .o-users div.name{cursor:pointer;transition:color .2s}
+  .o-users div.name:hover{color:#312d27;text-decoration:underline}
+  .o-users div.name.seen{color:#8d8a7f}
   .o-chat{flex:1;padding:14px 16px;overflow-y:auto;max-height:60vh;font-size:13.5px;line-height:1.7}
   .m{margin-bottom:12px;animation:fadeup .5s}
   @keyframes fadeup{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
@@ -27,6 +30,7 @@
   .m.host .who{color:#8a6ac6}
   .m.me .who{color:#302b25}
   .m .tx em{color:#c96a6a;font-style:normal}
+  .m .tx a{color:#2f5aa8;text-decoration:none;border-bottom:1px solid #8fa3c4}
   /* 输入区 */
   .o-input{display:flex;border:1px solid #b0a894;border-top:none;border-radius:0 0 10px 10px;background:#e0dac9}
   .o-input input{flex:1;background:none;border:none;outline:none;color:#514a3f;padding:12px 14px;font-family:inherit;font-size:13px}
@@ -43,6 +47,26 @@
     padding:14px 34px;font-size:15px;letter-spacing:4px;cursor:pointer;font-family:inherit}
   .cbtns button:hover{border-color:#c6bfa9;color:#423d33}
   .loopnote{margin-top:26px;font-size:12px;color:#4a5568;letter-spacing:2px;min-height:18px}
+  /* 连点三次「亥时三刻」的结局 */
+  #escape{display:none;position:fixed;inset:0;background:#000;z-index:200;overflow:hidden;
+    align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:30px}
+  #escape.on{display:flex;animation:blackin .5s ease}
+  @keyframes blackin{from{opacity:0}to{opacity:1}}
+  #escape .etext{color:#e8edf5;font-size:23px;letter-spacing:16px;opacity:0;
+    animation:etextin 2.4s 1.1s forwards;text-shadow:0 0 22px rgba(232,181,176,.55)}
+  @keyframes etextin{from{opacity:0;transform:scale(.98)}to{opacity:1;transform:none}}
+  #escape .esub{color:#5a667e;font-size:12px;letter-spacing:4px;margin-top:26px;opacity:0;
+    animation:etextin 2s 3.4s forwards}
+  .bfly{position:absolute;width:24px;height:24px;opacity:0;pointer-events:none;
+    animation:bflyin 2.2s forwards, bflyfloat 4.5s ease-in-out infinite}
+  @keyframes bflyin{to{opacity:.9}}
+  @keyframes bflyfloat{0%,100%{transform:translate(0,0) rotate(-6deg)}50%{transform:translate(10px,-16px) rotate(8deg)}}
+  #escEnd{margin-top:46px;opacity:0;transition:opacity 1.6s;pointer-events:none}
+  #escEnd.on{opacity:1;pointer-events:auto}
+  #escEnd .endline{color:#8a4a44;font-size:13px;letter-spacing:8px}
+  #escEnd a{display:inline-block;margin-top:22px;color:#5a667e;font-size:12px;letter-spacing:4px;
+    text-decoration:none;border-bottom:1px solid #33415e;padding-bottom:4px}
+  #escEnd a:hover{color:#c9d6ea}
 </style>
 <link rel="stylesheet" href="assets/skin-bbs.css?v=93"></head>
 <body>
@@ -72,6 +96,15 @@
   <div class="loopnote" id="loopnote"></div>
 </div>
 
+<div id="escape">
+  <div class="etext">你 逃 不 掉</div>
+  <div class="esub">蝴蝶从第八页飞出来。门，从里面锁上了。</div>
+  <div id="escEnd">
+    <div class="endline">—— 游 戏 结 束 ——</div>
+    <a href="home.html">重 新 开 始</a>
+  </div>
+</div>
+
 <div id="envhint"></div>
 <script src="assets/game.js?v=93"></script>
 <script>
@@ -87,6 +120,50 @@ function main(){
   const base = ["无量","青灯客","不渡","守观人","夜行员","白噪","亥时三刻","一尘"];
   const list = $("userlist");
   list.innerHTML = '<div class="h">在线 · 8</div>';
+  /* 点名字 → 收到一句私聊 */
+  const REPLIES = {
+    "无量":   "你想问的那件事，答案一直在你手里。",
+    "青灯客": "灯快灭了。你还不走？",
+    "不渡":   "我的名字就是回答。我不渡人。",
+    "守观人": "楼上没有灯。别数台阶，越数越多。",
+    "夜行员": "这条街的夜班，从来只有我一个人。",
+    "白噪":   "今天说了几次「还好」？我在数。",
+    "亥时三刻":"我们见过。在论坛第八页。",
+    "一尘":   "知人者智，自知者明。你数到第几层了？"
+  };
+  /* 连点三次「亥时三刻」→ 黑屏结局 */
+  let hxHits = 0, escaped = false;
+  function triggerEscape(){
+    if (escaped) return;
+    escaped = true;
+    $("escape").classList.add("on");
+    try { DJ.sfx.scare(); } catch(e){}
+    for (let i = 0; i < 9; i++){
+      const s = document.createElementNS("http://www.w3.org/2000/svg","svg");
+      s.setAttribute("viewBox","0 0 24 24");
+      s.classList.add("bfly");
+      s.style.left = (6 + Math.random() * 86) + "%";
+      s.style.top = (10 + Math.random() * 72) + "%";
+      s.style.animationDelay = (i * 0.22) + "s, " + (i * 0.3) + "s";
+      s.innerHTML = '<g fill="#f5f2e8"><path d="M12 12 C9 6, 3 5, 3 10 C3 14, 8 14, 11 12.5 Z"/><path d="M12 12 C15 6, 21 5, 21 10 C21 14, 16 14, 13 12.5 Z"/><ellipse cx="12" cy="13" rx="1.2" ry="3.2"/></g>';
+      $("escape").appendChild(s);
+    }
+    setTimeout(()=> $("escEnd").classList.add("on"), 6800);
+  }
+  function bindName(d, orig){
+    d.className = (d.className ? d.className + " " : "") + "name";
+    d.onclick = () => {
+      if (orig === "亥时三刻"){
+        hxHits++;
+        if (hxHits >= 3){ triggerEscape(); return; }
+      }
+      DJ.sfx.click();
+      const shown = d.textContent.trim();
+      const line = REPLIES[orig] || "（他看了你一眼，没有说话。）";
+      push("sys", shown + " · 私聊", line);
+      d.classList.add("seen");
+    };
+  }
   base.forEach((n,i)=>{
     const d = document.createElement("div");
     if (loopN > 0){
@@ -95,6 +172,7 @@ function main(){
       if (loopN >= 2 && i > 0 && i % 2 === 0) d.className = "dim";
       if (loopN >= 3 && i > 0){ d.textContent = "无量"; d.className = i > 4 ? "dim" : ""; }
     } else d.textContent = n;
+    bindName(d, n);
     list.appendChild(d);
   });
   $("minimal").onclick = () => { list.style.display = list.style.display === "none" ? "block" : "none"; };
@@ -156,7 +234,11 @@ function main(){
   /* 断点续玩：看过的直接到抉择 */
   if (DJ.has("oracle_reached")){
     push("sys","你回来晚了。他还在等。");
-    setTimeout(()=> $("choose").classList.add("on"), 1200);
+    if (DJ.has("oracle_pass")){
+      push("sys","门口","你上次已经答过了。门还开着。<br><a href='forum.html'>去大吉论坛 →</a>");
+    } else {
+      setTimeout(()=> $("choose").classList.add("on"), 1200);
+    }
   } else {
     setTimeout(next, 1200);
     DJ.flag("oracle_reached");
@@ -233,6 +315,9 @@ function main(){
       push("sys","门口","你起身要走。留言板上贴满了便签，穿堂风把它们吹得哗哗响。最新一张的笔迹很急：「大吉论坛 8 号群，通过了。谢谢无量。」");
       DJ.sfx.read();
     }, 4200);
+    setTimeout(()=>{
+      push("sys","门口","你推门出去。街上只有一扇窗还亮着——<br><a href='forum.html'>大吉论坛 · 8 号群 →</a>");
+    }, 6200);
   };
 
   DJ.envHint("这间茶室八年没换过名字。也八年没换过人。", "or1", 130);

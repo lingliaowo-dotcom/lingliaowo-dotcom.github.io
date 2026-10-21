@@ -100,7 +100,7 @@ const DJ = (() => {
 
   /* ---- 智能返回：回序章 ---- */
   api.back = (fallback) => {
-    location.href = fallback || "index.html";
+    location.href = fallback || "prologue.html";
   };
 
   /* ---- 极简音效（WebAudio，无外部文件） ---- */
