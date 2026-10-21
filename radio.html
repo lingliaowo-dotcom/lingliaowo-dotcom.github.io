@@ -101,8 +101,13 @@ function main(){
   $("nextBtn").onclick = () => { if (!done) play(); else DJ.envHintNow("最后一段，还没有播完。"); };
   $("offBtn").onclick = () => {
     DJ.sfx.click();
-    document.body.classList.add("flash");
-    setTimeout(() => location.href = "mask.html", 420);
+    if ((DJ.state.chapter || 0) >= 8){
+      document.body.classList.add("flash");
+      setTimeout(() => location.href = "mask.html", 420);
+    } else {
+      DJ.envHintNow("收音机关了。面具那扇门，要等你走到第 8 章。");
+      setTimeout(() => location.href = "search.html", 1400);
+    }
   };
 
   DJ.envHint("这个台八年只有一句话。你不觉得，一句话能撑八年吗。", "rd1", 90);
