@@ -117,6 +117,9 @@
 <link rel="stylesheet" href="assets/skin-bbs.css?v=94"></head>
 <body>
 <div class="moon"></div>
+<div class="pagenav">
+  <button class="corner" id="toSearch">搜 搜</button>
+</div>
 
 <div class="paper">
   <div class="oldhdr">
@@ -375,6 +378,7 @@ function main(){
     }
   };
   $("keyInput").addEventListener("keydown", e => { if (e.key === "Enter") $("keyBtn").click(); });
+  $("toSearch").onclick = () => location.href="search.html";
 
   /* ---------- 断点续玩：离开再回来，进度原样恢复，绝不回到原点 ---------- */
   (function restore(){

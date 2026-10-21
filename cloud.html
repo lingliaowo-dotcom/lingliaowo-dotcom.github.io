@@ -61,6 +61,7 @@
 <div class="c-wrap">
   <div class="c-top">
     <div class="c-logo">云<b>屉</b><span class="sm">你的每一次回忆，都值得被妥善存放 · 剩余空间 8 GB</span></div>
+    <button class="corner" style="position:static" id="toSearch">‹ 搜 搜</button>
   </div>
 
   <div class="crumb">全部文件 › 我的相册 › 共 8 个项目 · 全部由 深水无鱼 上传</div>
@@ -178,6 +179,8 @@ function main(){
   }
   $("lockGo").onclick = tryLock;
   $("lockInput").addEventListener("keydown", e => { if (e.key === "Enter") tryLock(); });
+
+  $("toSearch").onclick = () => location.href="search.html";
 
   /* ---------- 亥时文件夹：三样东西 ---------- */
   const hxOpen = { hx1:false, hx2:false, hx3:false };

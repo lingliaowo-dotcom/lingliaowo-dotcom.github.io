@@ -286,16 +286,6 @@
   </div>
 </div>
 
-<!-- 老玩家：继续面板 -->
-<div id="resume">
-  <div class="panel">
-    <div class="hi" id="hiLine">欢迎回来。</div>
-    <div class="where" id="whereLine"></div>
-    <button id="goOn">继 续 游 戏</button>
-    <button class="ghostb" id="freshStart">从 头 开 始</button>
-  </div>
-</div>
-
 <script src="assets/game.js?v=94"></script>
 <script>
 const $ = id => document.getElementById(id);
@@ -355,33 +345,9 @@ const CHAPTER_NAMES = { 1:"错位的起源", 2:"未读", 3:"青云观", 4:"赛�
 const isReturning = DJ.state.name && !new URLSearchParams(location.search).get("restart");
 
 if (isReturning) {
-  document.addEventListener("DOMContentLoaded", () => {
-    const rvBoot = DJ.revisit("boot");
-    setTimeout(() => {
-      $("resume").classList.add("show");
-      const ch = Math.min(DJ.state.chapter || 1, 12);
-      $("hiLine").textContent = "欢迎回来，" + DJ.state.name + "。"
-        + (rvBoot >= 2 ? "（第 " + rvBoot + " 次唤醒）" : "");
-      $("whereLine").textContent = DJ.state.done
-        ? (rvBoot >= 3
-            ? "上次，你已经走完了。但那台手机还开着。电量比上次少了一点。"
-            : "上次，你已经走完了。但那台手机还开着。")
-        : "";
-      if (new URLSearchParams(location.search).get("locked"))
-        $("whereLine").textContent = ($("whereLine").textContent ? $("whereLine").textContent + " · " : "")
-          + "有些门，要先走完前面的路。";
-      $("goOn").onclick = () => {
-        DJ.sfx.click();
-        document.body.classList.add("flash");
-        setTimeout(() => location.href = DJ.state.done ? "chat.html" : CHAPTER_PAGES[ch], 350);
-      };
-      $("freshStart").onclick = () => {
-        if (!confirm("从头开始会清掉现在的存档。确定吗？")) return;
-        try { localStorage.removeItem("daji_state_v1"); } catch(e) {}
-        location.href = "prologue.html?restart=1";
-      };
-    }, 2200);
-  });
+  /* 不再弹「继续 / 从头」面板：直接顺着存档往下走，一章接一章 */
+  const ch = Math.min(DJ.state.chapter || 1, 12);
+  location.replace(DJ.state.done ? "chat.html" : CHAPTER_PAGES[ch]);
 } else {
   /* ---------- 新玩家：龟裂时间线（提前一倍 + 互动加速） ---------- */
   let started = false;

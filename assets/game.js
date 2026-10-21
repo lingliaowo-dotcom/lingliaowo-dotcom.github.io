@@ -53,11 +53,11 @@ const DJ = (() => {
         /* 后退永远留在原地：按多少次都不会掉回上一章。 */
         try { history.pushState({ daji: ch, open: 1 }, ""); } catch (err) {}
       });
-      /* 2008 论坛顶条：每个"网页"都长着它。只剩年份标识，不再通往站外页面 */
+      /* 2008 论坛顶条：每个"网页"都长着它。[搜搜] 是真的——那是这个世界的浏览器，不是游戏按钮 */
       if (document.querySelector('link[href*="skin-bbs"]') && !document.getElementById("dajiTopbar") && document.body){
         const b = document.createElement("div");
         b.id = "dajiTopbar";
-        b.innerHTML = '<span class="tb-t tb-1">《大吉》个人版 v8.08</span>';
+        b.innerHTML = '<span class="tb-t tb-1">《大吉》个人版 v8.08</span> <a href="search.html">[搜搜]</a>';
         document.body.appendChild(b);
       }
     } catch (err) {}

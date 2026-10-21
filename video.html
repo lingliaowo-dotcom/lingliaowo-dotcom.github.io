@@ -48,6 +48,8 @@
 <div class="v-wrap">
   <div class="v-top">
     <div class="v-logo">MUTE<b>.TV</b><span class="sm">每一帧都值得 · 反正也没人看</span></div>
+    <button class="corner" style="position:static" id="toSearch">‹ 搜 搜</button>
+    <button class="corner" style="position:static" id="toMusic">‹ 空耳FM</button>
   </div>
 
   <!-- 视频 1：蝴蝶 -->
@@ -135,6 +137,9 @@ function main(){
     }
   };
   $("v2").onclick = () => { $("v2").muted = false; $("v2").play(); };
+
+  $("toSearch").onclick = () => location.href="search.html";
+  $("toMusic").onclick = () => location.href="music.html";
 
   DJ.envHint("第一条视频的评论区，有人说了个地方。", "vd1", 70);
   DJ.envHint("点视频。八次。别眨眼。", "vd2", 160);
