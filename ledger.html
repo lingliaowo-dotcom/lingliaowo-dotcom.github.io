@@ -82,7 +82,7 @@
       钱的事就到这吧。我去看看猫。<br>
       <span style="color:#8a887e;font-size:12px">——有只卷毛的，等我很久了。</span>
     </div>
-    <div class="go" style="cursor:default">他的浏览器还开着一个页面没关：同城领养 — 卷毛（八个月，未命名）。</div>
+    <div class="go" id="toAdopt">他的浏览器还开着一个页面没关：同城领养 — 卷毛（八个月，未命名）。 →</div>
   </div>
 </div>
 
@@ -143,6 +143,7 @@ function main(){
     $("pw").value = PW; $("pw").disabled = true; $("go").disabled = true;
     $("tip").innerHTML = "<em>密码正确。</em>回复已解锁。";
     $("dm").classList.add("on");
+    $("toAdopt").onclick = () => { DJ.sfx.click(); location.href = "adopt.html"; };
   }
 
   DJ.envHint("账是冷的。记账的手不是。", "ld1", 140);
