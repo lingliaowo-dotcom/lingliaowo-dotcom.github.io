@@ -366,9 +366,10 @@ if (isReturning) {
         ? (rvBoot >= 3
             ? "上次，你已经走完了。但那台手机还开着。电量比上次少了一点。"
             : "上次，你已经走完了。但那台手机还开着。")
-        : "进度还停在原地 · " + (ch <= 9 ? "第" + "一二三四五六七八九"[ch-1] + "章" : "第 " + ch + " 章") + "「" + CHAPTER_NAMES[ch] + "」";
+        : "";
       if (new URLSearchParams(location.search).get("locked"))
-        $("whereLine").textContent += " · 有些门，要先走完前面的路。";
+        $("whereLine").textContent = ($("whereLine").textContent ? $("whereLine").textContent + " · " : "")
+          + "有些门，要先走完前面的路。";
       $("goOn").onclick = () => {
         DJ.sfx.click();
         document.body.classList.add("flash");
