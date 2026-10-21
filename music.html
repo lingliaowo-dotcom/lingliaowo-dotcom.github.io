@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>空耳FM — 听见没人在听的声音</title>
-<link rel="stylesheet" href="assets/style.css?v=94">
+<link rel="stylesheet" href="assets/style.css?v=95">
 <style>
   *{margin:0;padding:0;box-sizing:border-box}
   body{background:#f2f3f5;font-family:-apple-system,"PingFang SC","Helvetica Neue",sans-serif;color:#333}
@@ -227,11 +227,10 @@
 </div>
 
 <div id="envhint"></div>
-<script src="assets/game.js?v=94"></script>
+<script src="assets/game.js?v=95"></script>
 <script>
-if (DJ.gate(3)) main();
+if (DJ.side(3)) main();
 function main(){
-  DJ.unlock(3);
   const $ = id => document.getElementById(id);
 
   /* ============ 8 首歌 ============

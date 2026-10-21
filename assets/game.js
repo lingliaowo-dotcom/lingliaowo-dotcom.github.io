@@ -89,6 +89,11 @@ const DJ = (() => {
       try { location.replace("prologue.html?locked=1"); } catch (e) {}
       return false;
     },
+    /** 支线页：不设章节门禁，随时可进；只保留返回拦截与论坛顶条 */
+    side(ch) {
+      installBackGuard(ch);
+      return true;
+    },
     unlock(ch) {
       /* 无声解锁：不弹任何提示，进度只藏在页面状态里 */
       if (s.chapter < ch) {
