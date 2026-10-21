@@ -81,7 +81,7 @@
         <div class="pc"><div class="pn">刻痕.jpg</div><div class="pd">21:47 · 断墙</div></div>
       </div>
       <div class="ph" id="hx2">
-        <img src="assets/media/butterfly.png" alt=""><div class="pc"><div class="pn">白蝶.jpg</div><div class="pd">21:52 · 断墙上</div></div>
+        <img src="assets/media/cloud/butterfly-thumb.webp" alt="" loading="lazy" decoding="async"><div class="pc"><div class="pn">白蝶.jpg</div><div class="pd">21:52 · 断墙上</div></div>
       </div>
       <div class="ph doc" id="hx3">
         <div class="docbody" id="radioDoc"><b>空房间.wav</b> · 0:08<br><br><span id="radioHint">双击播放。注意听它在哪里断掉。</span></div>
@@ -95,14 +95,14 @@
   </div>
 
   <div class="grid" id="photoGrid">
-    <div class="ph" data-img="temple.png" data-name="IMG_0808.jpg" data-desc="上传于 8 月 8 日 21:45（亥时三刻）\n\n青云观。灰还是温的。签纸烧到一半，剩下的那一半写着什么，风替我收走了。">
-      <img src="assets/media/temple.png" alt=""><div class="pc"><div class="pn">IMG_0808.jpg</div><div class="pd">2025-08-08 · 青云观</div></div></div>
-    <div class="ph" data-img="room.png" data-name="IMG_0808_2.jpg" data-desc="上传于 8 月 8 日 03:08\n\n凌晨三点。屏幕亮着，人没亮。这张拍完我删了三次，又从回收站恢复了三次。">
-      <img src="assets/media/room.png" alt=""><div class="pc"><div class="pn">IMG_0808_2.jpg</div><div class="pd">8月8日 · 出租屋</div></div></div>
-    <div class="ph" data-img="snowstreet.png" data-name="IMG_0808_3.jpg" data-desc="上传于 8 月 8 日 08:08\n\n雪。路上没有人。灯是唯一一个等我的人。">
-      <img src="assets/media/snowstreet.png" alt=""><div class="pc"><div class="pn">IMG_0808_3.jpg</div><div class="pd">8月8日 · 路上</div></div></div>
-    <div class="ph" data-img="butterfly.png" data-name="IMG_0808_4.jpg" data-desc="上传于 8 月 8 日 08:08\n\n黑底。白蝶。它停在屏幕上不走，我就把它拍下来了。后来发现，黑的那部分像一个人。">
-      <img src="assets/media/butterfly.png" alt=""><div class="pc"><div class="pn">IMG_0808_4.jpg</div><div class="pd">8月8日 · 屏幕</div></div></div>
+    <div class="ph" data-img="cloud/temple-full.webp" data-name="IMG_0808.jpg" data-desc="上传于 8 月 8 日 21:45（亥时三刻）\n\n青云观。灰还是温的。签纸烧到一半，剩下的那一半写着什么，风替我收走了。">
+      <img src="assets/media/cloud/temple-thumb.webp" alt="" loading="lazy" decoding="async"><div class="pc"><div class="pn">IMG_0808.jpg</div><div class="pd">2025-08-08 · 青云观</div></div></div>
+    <div class="ph" data-img="cloud/room-full.webp" data-name="IMG_0808_2.jpg" data-desc="上传于 8 月 8 日 03:08\n\n凌晨三点。屏幕亮着，人没亮。这张拍完我删了三次，又从回收站恢复了三次。">
+      <img src="assets/media/cloud/room-thumb.webp" alt="" loading="lazy" decoding="async"><div class="pc"><div class="pn">IMG_0808_2.jpg</div><div class="pd">8月8日 · 出租屋</div></div></div>
+    <div class="ph" data-img="cloud/snowstreet-full.webp" data-name="IMG_0808_3.jpg" data-desc="上传于 8 月 8 日 08:08\n\n雪。路上没有人。灯是唯一一个等我的人。">
+      <img src="assets/media/cloud/snowstreet-thumb.webp" alt="" loading="lazy" decoding="async"><div class="pc"><div class="pn">IMG_0808_3.jpg</div><div class="pd">8月8日 · 路上</div></div></div>
+    <div class="ph" data-img="cloud/butterfly-full.webp" data-name="IMG_0808_4.jpg" data-desc="上传于 8 月 8 日 08:08\n\n黑底。白蝶。它停在屏幕上不走，我就把它拍下来了。后来发现，黑的那部分像一个人。">
+      <img src="assets/media/cloud/butterfly-thumb.webp" alt="" loading="lazy" decoding="async"><div class="pc"><div class="pn">IMG_0808_4.jpg</div><div class="pd">8月8日 · 屏幕</div></div></div>
   </div>
 </div>
 
@@ -135,7 +135,7 @@ function main(){
 
   /* 大图 */
   let openCount = {};
-  document.querySelectorAll(".ph").forEach(p => {
+  document.querySelectorAll(".ph[data-img]").forEach(p => {
     p.onclick = () => {
       $("lbImg").src = "assets/media/" + p.dataset.img;
       $("lbMeta").innerHTML = "<b style='color:#5d5648'>" + p.dataset.name + "</b><br>" + esc(p.dataset.desc);
@@ -156,7 +156,7 @@ function main(){
   /* 锁：密码 = 08:08（第 8 首歌长 8 秒，"和它一样长"） */
   $("fLock").onclick = () => { $("lockbox").classList.add("show"); $("lockInput").focus(); };
   function bindAlbumPhotos(){
-    document.querySelectorAll(".ph").forEach(p => {
+    document.querySelectorAll("#photoGrid .ph").forEach(p => {
       p.onclick = () => {
         $("lbImg").src = "assets/media/" + p.dataset.img;
         $("lbMeta").innerHTML = "<b style='color:#5d5648'>" + p.dataset.name + "</b><br>" + esc(p.dataset.desc);
@@ -167,11 +167,11 @@ function main(){
   }
   function unlockAlbum(){
     /* 解锁相册：替换网格 */
-    document.querySelector(".grid").innerHTML = `
-        <div class="ph" data-img="reflection.png" data-name="IMG_0808_5.jpg" data-desc="上传于 8 月 8 日 23:08（这一张没有删过）\n\n屏幕黑着。但我总觉得里面有人。\n放大看，那个人的坐姿和我一模一样。\n\n——本来想配一段话发出去，写了八稿，全删了。歌单第八首就是那时候建的。">
-          <img src="assets/media/reflection.png" alt=""><div class="pc"><div class="pn">IMG_0808_5.jpg</div><div class="pd">8月8日 · 加密相册</div></div></div>
-        <div class="ph" data-img="butterfly.png" data-name="注意.txt" data-desc="（这不是照片。是一个记事本文件的截图。）\n\n如果我找到了那个人，我要问他：\n1. 你也是每八天孤独一次吗\n2. 你也数过自己发出去多少条未读吗\n3. 你也会在亥时三刻突然不敢关灯吗\n\n（第 4 条被涂掉了。涂黑的笔迹，和青云观签纸上的，是同一只手。）">
-          <img src="assets/media/butterfly.png" alt="" style="filter:brightness(.35)"><div class="pc"><div class="pn">注意.txt</div><div class="pd">8月8日 · 加密相册</div></div></div>`;
+    document.querySelector("#photoGrid").innerHTML = `
+        <div class="ph" data-img="cloud/reflection-full.webp" data-name="IMG_0808_5.jpg" data-desc="上传于 8 月 8 日 23:08（这一张没有删过）\n\n屏幕黑着。但我总觉得里面有人。\n放大看，那个人的坐姿和我一模一样。\n\n——本来想配一段话发出去，写了八稿，全删了。歌单第八首就是那时候建的。">
+          <img src="assets/media/cloud/reflection-thumb.webp" alt="" loading="lazy" decoding="async"><div class="pc"><div class="pn">IMG_0808_5.jpg</div><div class="pd">8月8日 · 加密相册</div></div></div>
+        <div class="ph" data-img="cloud/butterfly-full.webp" data-name="注意.txt" data-desc="（这不是照片。是一个记事本文件的截图。）\n\n如果我找到了那个人，我要问他：\n1. 你也是每八天孤独一次吗\n2. 你也数过自己发出去多少条未读吗\n3. 你也会在亥时三刻突然不敢关灯吗\n\n（第 4 条被涂掉了。涂黑的笔迹，和青云观签纸上的，是同一只手。）">
+          <img src="assets/media/cloud/butterfly-thumb.webp" alt="" style="filter:brightness(.35)" loading="lazy" decoding="async"><div class="pc"><div class="pn">注意.txt</div><div class="pd">8月8日 · 加密相册</div></div></div>`;
     bindAlbumPhotos();
   }
   function tryLock(){
@@ -210,7 +210,7 @@ function main(){
   };
   $("hx1").onclick = () => { if (!hxOpen.hx1){ DJ.sfx.type(); } hxMark("hx1"); };
   $("hx2").onclick = () => {
-    $("lbImg").src = "assets/media/butterfly.png";
+    $("lbImg").src = "assets/media/cloud/butterfly-full.webp";
     $("lbMeta").innerHTML = "<b style='color:#5d5648'>白蝶.jpg</b><br>趴在断墙上。黑白。<br>已经不动了。但翅膀是张开的，像随时准备飞。<br>你手机里那张照片，构图和它一模一样。<br>——不是他模仿了蝴蝶。是他把蝴蝶摆好，才拍的。";
     $("lbBurn").style.opacity = 0;
     $("lightbox").classList.add("show");
