@@ -347,7 +347,9 @@ const isReturning = DJ.state.name && !new URLSearchParams(location.search).get("
 if (isReturning) {
   /* 不再弹「继续 / 从头」面板：直接顺着存档往下走，一章接一章 */
   const ch = Math.min(DJ.state.chapter || 1, 12);
-  location.replace(DJ.state.done ? "chat.html" : CHAPTER_PAGES[ch]);
+  /* 第 8 章还没走完云屉的，先回云屉；否则回对应章节 */
+  const dest = (!DJ.state.done && ch === 8 && !DJ.has("cloud_done")) ? "cloud.html" : CHAPTER_PAGES[ch];
+  location.replace(DJ.state.done ? "chat.html" : dest);
 } else {
   /* ---------- 新玩家：龟裂时间线（提前一倍 + 互动加速） ---------- */
   let started = false;

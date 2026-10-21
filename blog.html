@@ -540,8 +540,7 @@ function main(){
     { t:"云屉网盘", d:"八年的东西都在里面",     go:"cloud.html",    c:8,  col:"#8d8dd9", i:"云" },
     { t:"拾光机",   d:"网页存档馆 · 让消失的有处可回", go:"snapshot.html", c:1,  col:"#5b8db8", i:"拾" },
     { t:"深夜电台", d:"每天亥时开播",           go:"radio.html",    c:9,  col:"#efebdc", i:"波" },
-    { t:"网上医院", d:"夜间门诊八点零八分开放", go:"hospital.html", c:10, col:"#e08888", i:"医" },
-    { t:"一面墙",   d:"写满了别人的心事",       go:"board.html",    c:10, col:"#b0a58a", i:"墙" }
+    { t:"网上医院", d:"夜间门诊八点零八分开放", go:"hospital.html", c:10, col:"#e08888", i:"医" }
   ];
   $("follows").innerHTML = FU.filter(f => ch >= f.c).map(f =>
     `<div class="fu" data-go="${f.go}"><div class="fa" style="background:${f.col}">${f.i}</div><div><div class="fn">${f.t}</div><div class="fd">${f.d}</div></div></div>`

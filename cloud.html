@@ -155,23 +155,33 @@ function main(){
 
   /* 锁：密码 = 08:08（第 8 首歌长 8 秒，"和它一样长"） */
   $("fLock").onclick = () => { $("lockbox").classList.add("show"); $("lockInput").focus(); };
-  function tryLock(){
-    const v = $("lockInput").value.replace(/[\s：:]/g, "").replace(/[０-９]/g, c => String.fromCharCode(c.charCodeAt(0) - 0xFEE0));
-    if (v === "0808" || v === "808" || v.toLowerCase() === "lingdianlingba" || v === "白蝶为钥" || v.toLowerCase() === "baidiweiyao"){
-      $("lockbox").classList.remove("show");
-      DJ.sfx.ok(); DJ.flag("cloud_unlocked"); DJ.addIncense(2);
-      /* 解锁相册：替换网格 */
-      document.querySelector(".grid").innerHTML = `
-        <div class="ph" data-img="reflection.png" data-name="IMG_0808_5.jpg" data-desc="上传于 8 月 8 日 23:08（这一张没有删过）\n\n屏幕黑着。但我总觉得里面有人。\n放大看，那个人的坐姿和我一模一样。\n\n——本来想配一段话发出去，写了八稿，全删了。歌单第八首就是那时候建的。">
-          <img src="assets/media/reflection.png" alt=""><div class="pc"><div class="pn">IMG_0808_5.jpg</div><div class="pd">8月8日 · 加密相册</div></div></div>
-        <div class="ph" data-img="butterfly.png" data-name="注意.txt" data-desc="（这不是照片。是一个记事本文件的截图。）\n\n如果我找到了那个人，我要问他：\n1. 你也是每八天孤独一次吗\n2. 你也数过自己发出去多少条未读吗\n3. 你也会在亥时三刻突然不敢关灯吗\n\n（第 4 条被涂掉了。涂黑的笔迹，和青云观签纸上的，是同一只手。）">
-          <img src="assets/media/butterfly.png" alt="" style="filter:brightness(.35)"><div class="pc"><div class="pn">注意.txt</div><div class="pd">8月8日 · 加密相册</div></div></div>`;
-      document.querySelectorAll(".ph").forEach(p => p.onclick = () => {
+  function bindAlbumPhotos(){
+    document.querySelectorAll(".ph").forEach(p => {
+      p.onclick = () => {
         $("lbImg").src = "assets/media/" + p.dataset.img;
         $("lbMeta").innerHTML = "<b style='color:#5d5648'>" + p.dataset.name + "</b><br>" + esc(p.dataset.desc);
         $("lbBurn").style.opacity = 0;
         $("lightbox").classList.add("show");
-      });
+      };
+    });
+  }
+  function unlockAlbum(){
+    /* 解锁相册：替换网格 */
+    document.querySelector(".grid").innerHTML = `
+        <div class="ph" data-img="reflection.png" data-name="IMG_0808_5.jpg" data-desc="上传于 8 月 8 日 23:08（这一张没有删过）\n\n屏幕黑着。但我总觉得里面有人。\n放大看，那个人的坐姿和我一模一样。\n\n——本来想配一段话发出去，写了八稿，全删了。歌单第八首就是那时候建的。">
+          <img src="assets/media/reflection.png" alt=""><div class="pc"><div class="pn">IMG_0808_5.jpg</div><div class="pd">8月8日 · 加密相册</div></div></div>
+        <div class="ph" data-img="butterfly.png" data-name="注意.txt" data-desc="（这不是照片。是一个记事本文件的截图。）\n\n如果我找到了那个人，我要问他：\n1. 你也是每八天孤独一次吗\n2. 你也数过自己发出去多少条未读吗\n3. 你也会在亥时三刻突然不敢关灯吗\n\n（第 4 条被涂掉了。涂黑的笔迹，和青云观签纸上的，是同一只手。）">
+          <img src="assets/media/butterfly.png" alt="" style="filter:brightness(.35)"><div class="pc"><div class="pn">注意.txt</div><div class="pd">8月8日 · 加密相册</div></div></div>`;
+    bindAlbumPhotos();
+  }
+  function tryLock(){
+    const v = $("lockInput").value.replace(/[\s：:]/g, "").replace(/[０-９]/g, c => String.fromCharCode(c.charCodeAt(0) - 0xFEE0));
+    if (v === "0808" || v === "808" || v.toLowerCase() === "lingdianlingba" || v === "白蝶为钥" || v.toLowerCase() === "baidiweiyao"){
+      $("lockbox").classList.remove("show");
+      DJ.sfx.ok();
+      if (!DJ.has("cloud_unlocked")){ DJ.addIncense(2); }
+      DJ.flag("cloud_unlocked");
+      unlockAlbum();
     } else {
       $("lockErr").textContent = "密码不对。它不长。和那首歌一样长。";
       DJ.sfx.err();
@@ -223,7 +233,10 @@ function main(){
   /* 坐标已经给你了。导航的终点只有一个：第八楼。 */
   $("ruinsGo").onclick = () => { DJ.sfx.click(); location.href = "mask.html"; };
 
-  /* 断点续玩：来过就直接亮出来 */
+  /* 断点续玩：解锁过的相册直接亮出来 */
+  if (DJ.has("cloud_unlocked")) unlockAlbum();
+
+  /* 来过就直接亮出来 */
   if (DJ.has("cloud_done")){
     $("hxview").style.display = "block";
     hxOpen.hx1 = hxOpen.hx2 = hxOpen.hx3 = true;

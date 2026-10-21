@@ -263,11 +263,18 @@ function main(){
     }
     $("satcap").innerHTML = SATCAPS[zoomLv];
   });
+  function revealWarehouse(){
+    zoomLv = 2;
+    $("satbox").classList.add("z2");
+    $("satdot").style.display = "block";
+    $("satbox").style.cursor = "default";
+    $("satcap").innerHTML = `×8 —— 放大到头了。那个点不是猫，是一间自助仓。<br>仓门上贴着一张打印的贴纸，边角已经翘起来：<br><b>yunti.cloud</b> · 你的每一次回忆，都值得被妥善存放<br>仓门没锁。<a href="cloud.html" style="color:#5a4a3f;border-bottom:1px solid #5a4a3f">推门进去 →</a>`;
+  }
   $("satdot").onclick = e => {
     e.stopPropagation();
     DJ.sfx.ok(); DJ.flag("adopt_done"); DJ.addIncense(1);
     DJ.unlock(8);
-    $("satcap").innerHTML = `×8 —— 放大到头了。那个点不是猫，是一间自助仓。<br>仓门上贴着一张打印的贴纸，边角已经翘起来：<br><b>yunti.cloud</b> · 你的每一次回忆，都值得被妥善存放`;
+    revealWarehouse();
   };
 
   /* ---------- 出口：打开卫星图 ---------- */
@@ -286,6 +293,7 @@ function main(){
     $("sat").classList.add("on");
     $("mapgo").style.display = "none";
     $("cnum").textContent = "3";
+    revealWarehouse();
   }
 
   DJ.envHint("卖猫的人不爱出镜。爱出镜的是猫。", "ad1", 140);
