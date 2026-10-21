@@ -190,7 +190,7 @@
   <div class="maincol">
     <div class="card">
       <div class="compose">
-        <div class="cava" data-lb="c"><img src="assets/media/butterfly.png" alt=""></div>
+        <div class="cava" data-lb="c"><img src="assets/media/butterfly-ava.webp" alt="" loading="lazy" decoding="async"></div>
         <div class="cright">
           <div class="cinput" id="cinput">既然没人看，就随便说说……</div>
           <div class="ctools">
@@ -219,7 +219,7 @@
   <div class="rightcol">
     <div class="card">
       <div class="pcov"><svg viewBox="0 0 60 48" fill="none"><path d="M30 24 C18 4, 2 6, 6 18 C9 27, 20 28, 30 24 Z" fill="#fff"/><path d="M30 24 C42 4, 58 6, 54 18 C51 27, 40 28, 30 24 Z" fill="#fff"/></svg></div>
-      <div class="pava" id="avatar"><img src="assets/media/butterfly.png" alt=""></div>
+      <div class="pava" id="avatar"><img src="assets/media/butterfly-ava.webp" alt="" loading="lazy" decoding="async"></div>
       <div class="pbody">
         <div class="pname">北屋</div>
         <div class="pstats">
@@ -569,13 +569,13 @@ function main(){
     const comments = list.length
       ? list.map(c => c.gone
           ? `<div class="wcmt"><div class="gava">路</div><div><b class="gone">${c.w}</b><span class="gtag">已注销</span>：${c.t}</div></div>`
-          : `<div class="wcmt"><div class="ca"><img src="assets/media/butterfly.png" alt=""></div><div><b>${c.w}</b>：${c.t}</div></div>`)
+          : `<div class="wcmt"><div class="ca"><img src="assets/media/butterfly-ava.webp" alt="" loading="lazy" decoding="async"></div><div><b>${c.w}</b>：${c.t}</div></div>`)
         .join("")
       : `<div class="wcmt none">还没有评论。</div>`;
     const cn = list.length;
     return `<div class="wb">
       <div class="wbhead">
-        <div class="wa" data-lb="${idx}"><img src="assets/media/butterfly.png" alt=""></div>
+        <div class="wa" data-lb="${idx}"><img src="assets/media/butterfly-ava.webp" alt="" loading="lazy" decoding="async"></div>
         <div class="wbmeta">
           <div class="wnamerow"><span class="wname">北屋</span><span class="wlock">仅自己可见</span></div>
           <div class="wtime">${p.d} · 来自北屋的旧手机</div>
@@ -677,9 +677,9 @@ function main(){
 
   $("visit").textContent = "9";
 
-  $("avatar").onclick = () => { DJ.sfx.click(); $("lbximg").src = "assets/media/butterfly.png"; $("lbx").classList.add("show"); };
+  $("avatar").onclick = () => { DJ.sfx.click(); $("lbximg").src = "assets/media/butterfly-view.webp"; $("lbx").classList.add("show"); };
   document.querySelectorAll("[data-lb]").forEach(el => {
-    el.onclick = () => { DJ.sfx.click(); $("lbximg").src = "assets/media/butterfly.png"; $("lbx").classList.add("show"); };
+    el.onclick = () => { DJ.sfx.click(); $("lbximg").src = "assets/media/butterfly-view.webp"; $("lbx").classList.add("show"); };
   });
   $("lbx").onclick = () => $("lbx").classList.remove("show");
 }

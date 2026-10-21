@@ -64,13 +64,13 @@ function main(){
 
   /* 一晚，八张。最后一"张"不是照片。 */
   const SHOTS = [
-    { img:"snowstreet.png", t:"22:14", c:"路上。雪停了。\n灯是唯一一个等我的人。" },
-    { img:"reflection.png", t:"23:08", c:"屏幕黑着。总觉得里面有人。\n放大看，那个人的坐姿和我一模一样。" },
-    { img:"room.png",       t:"00:48", c:"出租屋。茶凉到第三遍。\n没有开灯——开了灯，房间就承认只有一个人了。" },
-    { img:"temple.png",     t:"02:08", c:"又走到这里。灰还是温的。\n这个点不该有人的。守观的老人说，永远只有一个年轻人来。" },
-    { img:"butterfly.png",  t:"02:31", c:"白蝶。黑底。\n它停在屏幕上不走，我就把它拍下来了。" },
-    { img:"room.png",       t:"03:08", c:"凌晨三点。屏幕亮着，人没亮。\n这张拍完我删了三次，又从回收站恢复了三次。" },
-    { img:"snowstreet.png", t:"04:08", c:"回家的路。来时的脚印已经被雪盖掉一半。\n走夜路的人不怕黑，怕的是回头。" },
+    { img:"snowstreet-view.webp", t:"22:14", c:"路上。雪停了。\n灯是唯一一个等我的人。" },
+    { img:"reflection-view.webp", t:"23:08", c:"屏幕黑着。总觉得里面有人。\n放大看，那个人的坐姿和我一模一样。" },
+    { img:"room-view.webp",       t:"00:48", c:"出租屋。茶凉到第三遍。\n没有开灯——开了灯，房间就承认只有一个人了。" },
+    { img:"temple-view.webp",     t:"02:08", c:"又走到这里。灰还是温的。\n这个点不该有人的。守观的老人说，永远只有一个年轻人来。" },
+    { img:"butterfly-view.webp",  t:"02:31", c:"白蝶。黑底。\n它停在屏幕上不走，我就把它拍下来了。" },
+    { img:"room-view.webp",       t:"03:08", c:"凌晨三点。屏幕亮着，人没亮。\n这张拍完我删了三次，又从回收站恢复了三次。" },
+    { img:"snowstreet-view.webp", t:"04:08", c:"回家的路。来时的脚印已经被雪盖掉一半。\n走夜路的人不怕黑，怕的是回头。" },
     { draft:true,           t:"04:08", c:"" }
   ];
   let i = 0;
@@ -97,7 +97,7 @@ function main(){
     $("nextB").classList.remove("off");
     $("exitB").classList.add("off");
     if (i === 0) $("prevB").classList.add("off"); else $("prevB").classList.remove("off");
-    st.innerHTML = `<img src="assets/media/${s.img}" alt="">
+    st.innerHTML = `<img src="assets/media/${s.img}" alt="" decoding="async">
       <div class="cap">${s.c}</div>
       <div class="time">— ${s.t} —</div>`;
     DJ.sfx.click();
