@@ -41,8 +41,7 @@ const DJ = (() => {
       setTimeout(() => { t.classList.remove("show"); setTimeout(() => t.remove(), 900); }, 3400);
     } catch (e) {}
   };
-  /* ---- 浏览器后退守卫：按后退 = 回到上一章，而不是被扔回序章 ---- */
-  const CH_PAGES = { 1:"dial.html", 2:"chat.html", 3:"guanyun.html", 4:"oracle.html", 5:"forum.html", 6:"ledger.html", 7:"adopt.html", 8:"mask.html", 9:"mask.html", 10:"archive.html", 11:"echo8.html", 12:"final.html" };
+  /* ---- 浏览器后退守卫：按后退留在原地，不会被扔回序章 ---- */
   function installBackGuard(ch){
     if (ch <= 1 || window.__dajiBackGuard) return;
     window.__dajiBackGuard = ch;
