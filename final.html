@@ -84,9 +84,10 @@
 <div id="envhint"></div>
 <script src="assets/game.js?v=95"></script>
 <script>
-if (DJ.gate(12)) main();
+const PEEK = location.search.indexOf("peek") !== -1; /* 主页彩蛋：不写存档，直接看结尾 */
+if (PEEK || DJ.gate(12)) main();
 function main(){
-  DJ.unlock(12);
+  if (!PEEK) DJ.unlock(12);
   const $ = id => document.getElementById(id);
 
   /* ---------- 阶段一：顺其自然，永远错误 ---------- */
@@ -94,7 +95,8 @@ function main(){
   let fails = Math.max(0, DJ.state.fails || 0);
   let submitTimes = [];
   function fail(msg){
-    fails++; DJ.state.fails = fails; DJ.save();
+    fails++;
+    if (!PEEK){ DJ.state.fails = fails; DJ.save(); }
     DJ.sfx.err();
     pw.classList.add("shake"); setTimeout(()=>pw.classList.remove("shake"), 420);
     $("pwTip").textContent = msg;
@@ -134,7 +136,7 @@ function main(){
   $("blankInput").addEventListener("keydown", e => {
     if (e.key === "Enter"){
       const v = $("blankInput").value;
-      DJ.state.blank = v.trim(); DJ.save();
+      if (!PEEK){ DJ.state.blank = v.trim(); DJ.save(); }
       $("blankInput").disabled = true;
       $("blankInput").value = "";
       $("blankInput").placeholder = v ? "「" + v + "」" : "（空白也是答案）";
@@ -147,7 +149,7 @@ function main(){
 
   /* ---------- 终幕 ---------- */
   function endo(){
-    DJ.state.done = true; DJ.save();
+    if (!PEEK){ DJ.state.done = true; DJ.save(); }
     $("stBlank").style.display = "none";
     document.body.classList.add("flash");
     const e = $("endo"); e.classList.add("show");

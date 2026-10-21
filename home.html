@@ -57,7 +57,7 @@
   </div>
 </div>
 
-<div class="foot">建议：深夜 · 耳机 · 一个人</div>
+<div class="foot" id="footTip" title="有些答案，结尾也在等">建议：深夜 · 耳机 · 一个人</div>
 
 <script src="assets/game.js?v=95"></script>
 <script>
@@ -76,6 +76,16 @@
     document.body.style.transition = "opacity .8s";
     document.body.style.opacity = 0;
     setTimeout(() => location.href = "prologue.html", 800);
+  };
+
+  /* 彩蛋：点「深夜 · 耳机 · 一个人」，不写存档，直接看结尾 */
+  const foot = $("footTip");
+  foot.style.cursor = "pointer";
+  foot.onclick = () => {
+    DJ.sfx.click();
+    document.body.style.transition = "opacity .8s";
+    document.body.style.opacity = 0;
+    setTimeout(() => location.href = "final.html?peek=1", 800);
   };
 })();
 </script>
