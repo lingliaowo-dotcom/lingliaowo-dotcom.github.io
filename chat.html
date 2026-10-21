@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>信息</title>
-<link rel="stylesheet" href="assets/style.css?v=93">
+<link rel="stylesheet" href="assets/style.css?v=94">
 <style>
   body{background:#dfd9c7;font-family:-apple-system,"PingFang SC","Helvetica Neue","Microsoft YaHei",sans-serif}
   .iphone{
@@ -203,7 +203,7 @@
   @keyframes bjump{0%,100%{transform:scale(1)}40%{transform:scale(1.35)}}
   .navbadge.jump{animation:bjump .4s ease}
 </style>
-<link rel="stylesheet" href="assets/skin-bbs.css?v=93"></head>
+<link rel="stylesheet" href="assets/skin-bbs.css?v=94"></head>
 <body>
 
 <div class="iphone">
@@ -341,7 +341,7 @@
 </div>
 
 <div id="envhint"></div>
-<script src="assets/game.js?v=93"></script>
+<script src="assets/game.js?v=94"></script>
 <script>
 if (DJ.gate(2)) main();
 function main(){
@@ -546,8 +546,8 @@ function main(){
     else if (q.includes("还好")) r.innerHTML = "<span style='color:#2f2b25'>「还好」在这段对话里出现过 24 次。全部是在回答。</span>";
     else if (q.includes("顺其自然")) r.innerHTML = "<span style='color:#ff453a'>搜索结果：还不急。</span>";
     else if (q.includes("青云观")) r.innerHTML = "<span style='color:#0a84ff'>这个词来自一条草稿。地图上查到了它：青云观 · 有求必应。 <a href='guanyun.html' style='color:#0a84ff;text-decoration:underline'>打开</a></span>";
-    else if (q.includes("博客") || q.includes("小号") || q.includes("北屋") || q.includes("碎碎念")) r.innerHTML = "<span style='color:#0a84ff'>找到一个号。「北屋」。粉丝 0，访问 8 次。最后更新：今天。 <a href='blog.html' style='color:#0a84ff;text-decoration:underline'>打开</a></span>";
-    else if (q.includes("存档") || q.includes("快照") || q.includes("拾光机")) r.innerHTML = "<span style='color:#0a84ff'>找到「拾光机」· 网页存档馆。口号是：把消失的网页，存在原处。 <a href='snapshot.html' style='color:#0a84ff;text-decoration:underline'>打开</a></span>";
+    else if (q.includes("博客") || q.includes("小号") || q.includes("北屋") || q.includes("碎碎念")) r.innerHTML = "<span style='color:#0a84ff'>找到一个号。「北屋」。粉丝 0，访问 8 次。最后更新：今天。</span>";
+    else if (q.includes("存档") || q.includes("快照") || q.includes("拾光机")) r.innerHTML = "<span style='color:#0a84ff'>找到「拾光机」· 网页存档馆。口号是：把消失的网页，存在原处。</span>";
     else r.textContent = "没有找到「" + q + "」的结果。";
   });
 
@@ -555,6 +555,7 @@ function main(){
   $("draftKey").onclick = () => { DJ.unlock(3); DJ.sfx.read(); };
   $("guanWord").onclick = e => {
     e.stopPropagation();
+    DJ.unlock(3);
     DJ.sfx.click();
     location.href = "guanyun.html";
   };

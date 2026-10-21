@@ -50,15 +50,14 @@ const DJ = (() => {
       history.replaceState({ daji: ch, cur: 1 }, "");
       history.pushState({ daji: ch, open: 1 }, "");
       window.addEventListener("popstate", () => {
-        /* 后退永远留在原地：按多少次都不会掉回上一章。
-           想找什么，用顶条的 [搜搜]——那是这个世界唯一的入口。 */
+        /* 后退永远留在原地：按多少次都不会掉回上一章。 */
         try { history.pushState({ daji: ch, open: 1 }, ""); } catch (err) {}
       });
-      /* 2008 论坛顶条：每个"网页"都长着它。[搜搜] 是真的——那是这个世界的浏览器，不是游戏按钮 */
+      /* 2008 论坛顶条：每个"网页"都长着它。只剩年份标识，不再通往站外页面 */
       if (document.querySelector('link[href*="skin-bbs"]') && !document.getElementById("dajiTopbar") && document.body){
         const b = document.createElement("div");
         b.id = "dajiTopbar";
-        b.innerHTML = '<span class="tb-t tb-1">《大吉》个人版 v8.08</span> <a href="search.html">[搜搜]</a>';
+        b.innerHTML = '<span class="tb-t tb-1">《大吉》个人版 v8.08</span>';
         document.body.appendChild(b);
       }
     } catch (err) {}
@@ -83,12 +82,12 @@ const DJ = (() => {
     },
     rvOf(key) { return (s.rv && s.rv[key]) || 0; },
     addIncense(n) { s.incense = Math.max(0, s.incense + n); save(); },
-    /** 页面门禁：未解锁则踢回序章；通过则装上"后退=上一章"守卫 */
+    /** 页面门禁：只能按 1→12 的顺序进入；还没走到的章节一律送回序章 */
     gate(ch) {
-      /* 开放世界：不锁任何门。玩家可以从任何地方进来、往任何方向走。
-         章节号只在内部记录，用于北屋「继续走」和搜索联想——玩家永远看不见它 */
       installBackGuard(ch);
-      return true;
+      if ((s.chapter || 0) >= ch) return true;
+      try { location.replace("prologue.html?locked=1"); } catch (e) {}
+      return false;
     },
     unlock(ch) {
       /* 无声解锁：不弹任何提示，进度只藏在页面状态里 */
