@@ -291,7 +291,7 @@
 <div id="envhint"></div>
 <script src="assets/game.js?v=94"></script>
 <script>
-if (DJ.gate(10)) main();
+main();
 function main(){
   const $ = id => document.getElementById(id);
   const esc = s => s.replace(/\n/g,"<br>");
@@ -384,6 +384,7 @@ function main(){
       DJ.sfx.read(); DJ.flag("hospital_read"); DJ.addIncense(2);
       setTimeout(() => {
         $("lastword").style.display = "block";
+        $("goecho").style.display = "block";
         $("lastword").scrollIntoView({behavior:"smooth", block:"center"});
         if (rvHos >= 2) DJ.envHintNow("你又来查了一遍。他还是没有来。");
       }, 4200);
@@ -397,6 +398,10 @@ function main(){
 
   $("toEcho").onclick = () => {
     DJ.sfx.click();
+    if ((DJ.state.chapter || 0) < 10){
+      DJ.envHintNow("这句话，要等你走到档案室，才听得完。");
+      return;
+    }
     location.href = "archive.html";
   };
 
