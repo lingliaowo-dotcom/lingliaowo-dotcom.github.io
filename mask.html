@@ -251,10 +251,29 @@ function main(){
 
   $("crackBtn").onclick = () => {
     DJ.sfx.ok(); DJ.unlock(10);
-    DJ.envHintNow("面具底下，掉出来一张折了八折的纸。展开：市第八医院 · 心理健康档案系统 · 查询编号 0808-08。");
     $("crackBtn").style.pointerEvents = "none";
-    setTimeout(() => { document.body.classList.add("flash"); }, 2600);
-    setTimeout(() => { location.href = "archive.html"; }, 3000);
+    document.body.classList.add("flash");
+    /* 面具碎了，屏幕先黑下来：系统替他说了这一句，然后直接进镜中人 */
+    setTimeout(() => {
+      const ov = document.createElement("div");
+      ov.style.cssText = "position:fixed;inset:0;background:#04060a;z-index:95;display:flex;align-items:center;justify-content:center;pointer-events:none;opacity:0;transition:opacity .4s";
+      const tx = document.createElement("div");
+      tx.style.cssText = "color:#c0564f;font-family:Consolas,monospace;font-size:17px;letter-spacing:3px;text-align:center;padding:0 24px;line-height:2";
+      ov.appendChild(tx);
+      document.body.appendChild(ov);
+      requestAnimationFrame(() => ov.style.opacity = 1);
+      DJ.sfx.err();
+      const line = "我不是访客。我是你删掉的草稿。";
+      let k = 0;
+      const t = setInterval(() => {
+        tx.textContent = line.slice(0, ++k);
+        if (k % 3 === 0) DJ.sfx.type();
+        if (k >= line.length){
+          clearInterval(t);
+          setTimeout(() => { location.href = "echo8.html"; }, 1500);
+        }
+      }, 75);
+    }, 700);
   };
 
   /* 环境提示 */

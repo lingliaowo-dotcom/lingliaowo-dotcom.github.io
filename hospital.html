@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
@@ -390,7 +390,7 @@ function main(){
       }, 4200);
       $("recs").scrollIntoView({behavior:"smooth", block:"start"});
     } else {
-      $("qerr").textContent = "查无此人。……不对，是查无此号。病历号你不陌生。档案室里，编号那一栏。";
+      $("qerr").textContent = "查无此人。……不对，是查无此号。病历号你不陌生。编号那一栏，08-0808。";
       DJ.sfx.err();
     }
   };
@@ -399,14 +399,14 @@ function main(){
   $("toEcho").onclick = () => {
     DJ.sfx.click();
     if ((DJ.state.chapter || 0) < 10){
-      DJ.envHintNow("这句话，要等你走到档案室，才听得完。");
+      DJ.envHintNow("这句话，要等你走过那面镜子，才听得完。");
       return;
     }
-    location.href = "archive.html";
+    location.href = "echo8.html";
   };
 
   DJ.envHint("查询不会通知本人。——这句话是写给谁看的？", "hs1", 90);
-  DJ.envHint("病历号。档案室的编号栏，08-0808。", "hs2", 200);
+  DJ.envHint("病历号。编号栏，08-0808。", "hs2", 200);
   DJ.envHint("这个医院网站，只有一个人在用。八年。", "hs3", 320);
 }
 </script>

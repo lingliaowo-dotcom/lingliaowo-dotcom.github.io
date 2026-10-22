@@ -65,7 +65,7 @@ const DJ = (() => {
   /* 主线十二站映射：门禁拦截时直接送回玩家当前所在的一站，不再闪序章 */
   const CHAPTER_PAGES = { 0:"prologue.html", 1:"dial.html", 2:"chat.html", 3:"guanyun.html",
     4:"oracle.html", 5:"forum.html", 6:"ledger.html", 7:"adopt.html", 8:"cloud.html",
-    9:"mask.html", 10:"archive.html", 11:"echo8.html", 12:"final.html" };
+    9:"mask.html", 10:"echo8.html", 11:"final.html", 12:"final.html" };
 
   const api = {
     state: s,

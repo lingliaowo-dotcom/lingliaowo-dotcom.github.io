@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
@@ -85,9 +85,9 @@
 <script src="assets/game.js?v=97"></script>
 <script>
 const PEEK = location.search.indexOf("peek") !== -1; /* 主页彩蛋：不写存档，直接看结尾 */
-if (PEEK || DJ.gate(12)) main();
+if (PEEK || DJ.gate(11)) main();
 function main(){
-  if (!PEEK) DJ.unlock(12);
+  if (!PEEK) DJ.unlock(11);
   if (PEEK){ /* 参观者没有进度，「回到未读」会被第 2 章门禁弹回序章，改回主页 */
     const bl = document.getElementById("backRead");
     bl.href = "home.html";
@@ -198,7 +198,7 @@ function main(){
       if (DJ.has("went_still"))   synth.push("你试过整整三十秒什么都不做。它记住了。");
       if (DJ.has("saw_8_qian"))   synth.push("你摇了八次签。第八支，等了你很久。");
       if (DJ.has("read_bin"))     synth.push("你读过那些被删掉的话。删掉，不等于没说过。");
-      if (DJ.has("quiz_done"))    synth.push("那份卷子你是替他答的。可你答得那么顺。");
+      if (DJ.has("morse_done"))   synth.push("灯闪了很久。你等到它把话说完。");
       if (DJ.has("found_floor8")) synth.push("第 8 页你进去了。你知道那扇门为什么为你开。");
       if (DJ.has("butterfly_8"))  synth.push("那只黑白蝴蝶你点了八下。第八下，是它替你数的。");
       if (DJ.has("biji_997"))     synth.push("99.7%。剩下的 0.3%，是他说不出口的部分。");

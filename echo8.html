@@ -86,10 +86,10 @@
 <div id="envhint"></div>
 <script src="assets/game.js?v=97"></script>
 <script>
-if (DJ.gate(11)) main();
+if (DJ.gate(10)) main();
 function main(){
   const $ = id => document.getElementById(id);
-  DJ.unlock(11);
+  DJ.unlock(10);
   DJ.revisit("echo8");
 
   /* ---------- 阶段一：0808 ---------- */
@@ -202,7 +202,7 @@ function main(){
   $("togo").onclick = () => {
     DJ.sfx.ok();
     document.body.classList.add("flash");
-    DJ.unlock(12);
+    DJ.unlock(11);
     setTimeout(() => location.href = "final.html", 420);
   };
 
