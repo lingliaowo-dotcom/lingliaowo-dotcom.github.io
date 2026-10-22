@@ -202,7 +202,8 @@ function main(){
   $("togo").onclick = () => {
     DJ.sfx.ok();
     document.body.classList.add("flash");
-    setTimeout(() => location.href = "hisview.html", 420);
+    DJ.unlock(12);
+    setTimeout(() => location.href = "final.html", 420);
   };
 
   /* 断点续玩 */
