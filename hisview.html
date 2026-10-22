@@ -58,9 +58,9 @@
   /* 中间闪烁的「你准备好了吗」：呼吸式明暗，点击进入结尾 */
   .readyhint{color:#aebfd8;font-size:15px;letter-spacing:14px;margin-top:24px;
     opacity:0;transition:opacity 1.2s;border-bottom:1px solid transparent;
-    text-align:center;user-select:none;cursor:pointer}
+    text-align:center;user-select:none}
   .readyhint.blink{opacity:1;animation:rhblink 1.6s ease-in-out infinite}
-  .readyhint.ready{opacity:1;animation:none;border-bottom-color:#4a7dd6}
+  .readyhint.ready{opacity:1;animation:none;border-bottom-color:#4a7dd6;cursor:pointer}
   .readyhint.ready:hover{color:#c9d6ea}
   @keyframes rhblink{0%,100%{opacity:.25}50%{opacity:1}}
   .skip{position:fixed;right:14px;bottom:12px;color:#22304a;font-size:10.5px;letter-spacing:2px;
