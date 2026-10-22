@@ -254,6 +254,18 @@ function main(){
       }, after + 5600);
       setTimeout(() => { $("credits").style.opacity = 1; }, after + 7600);
       setTimeout(() => { $("saveCard").style.display = "inline-block"; }, after + 9200);
+      /* 最后的最后：不是台词，是歌 */
+      const song = ["如此生活30年", "直到大廈崩塌", "雲層深處的黑暗啊", "淹沒心底的景觀"];
+      song.forEach((s, i) => {
+        setTimeout(() => {
+          const d = document.createElement("div");
+          d.className = "readline";
+          d.textContent = s;
+          box.appendChild(d);
+          requestAnimationFrame(() => d.classList.add("on"));
+          DJ.sfx.type();
+        }, after + 10600 + i * 1800);
+      });
     }
   }
 
