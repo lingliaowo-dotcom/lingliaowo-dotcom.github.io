@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>（无标题）</title>
-<link rel="stylesheet" href="assets/style.css?v=96">
+<link rel="stylesheet" href="assets/style.css?v=97">
 <style>
   body{background:#000;color:#c7cedb;font-family:-apple-system,"PingFang SC",sans-serif;overflow:hidden}
   .e-stage{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;
@@ -84,7 +84,7 @@
 </div>
 
 <div id="envhint"></div>
-<script src="assets/game.js?v=96"></script>
+<script src="assets/game.js?v=97"></script>
 <script>
 if (DJ.gate(11)) main();
 function main(){
@@ -104,6 +104,11 @@ function main(){
       DJ.sfx.ok(); DJ.flag("echo_0808"); DJ.addIncense(3);
       $("stage1").classList.add("hide");
       setTimeout(startFlood, 2600);
+      /* 保底：刷屏动画无论是否被打断，45 秒后发送区必须能出现 */
+      clearTimeout(window.__lastGuard);
+      window.__lastGuard = setTimeout(() => {
+        if (!DJ.has("last_sent")) startLast();
+      }, 45000);
     } else {
       fails++;
       DJ.sfx.err();
@@ -169,20 +174,24 @@ function main(){
 
   /* ---------- 阶段三：强制发送 ---------- */
   function startLast(){
-    $("lastsend").classList.add("on");
-    setTimeout(()=> $("lastmsg").focus(), 800);
+    const ls = $("lastsend"); if (!ls) return;
+    ls.classList.add("on");
+    ls.style.display = "flex"; /* 双保险：即使 .on 类未生效也强制显示 */
+    setTimeout(() => { const m = $("lastmsg"); if (m) m.focus(); }, 800);
   }
   function doSend(){
-    const v = $("lastmsg").value.trim();
+    const m = $("lastmsg"); if (!m) return;
+    const v = m.value.trim();
     if (!v){ DJ.envHintNow("随便说点什么。这里不评判。"); return; }
-    $("lastmsg").disabled = true; $("lsend").disabled = true;
+    m.disabled = true; const sb = $("lsend"); if (sb) sb.disabled = true;
     DJ.sfx.click();
-    setTimeout(()=> $("receipt").textContent = "已 读", 1800);
-    setTimeout(()=> $("receipt").textContent = "已 读", 3600); /* 再刷一遍：它只做这一件事 */
+    setTimeout(()=> { const r = $("receipt"); if (r) r.textContent = "已 读"; }, 1800);
+    setTimeout(()=> { const r = $("receipt"); if (r) r.textContent = "已 读"; }, 3600); /* 再刷一遍：它只做这一件事 */
     setTimeout(()=>{
+      clearTimeout(window.__lastGuard);
       DJ.flag("last_sent"); DJ.addIncense(2);
-      $("lastsend").classList.remove("on");
-      $("lastline").classList.add("on");
+      const ls = $("lastsend"); if (ls){ ls.classList.remove("on"); ls.style.display = "none"; }
+      const ll = $("lastline"); if (ll){ ll.classList.add("on"); ll.style.display = "flex"; }
       DJ.sfx.read();
     }, 6200);
   }
@@ -199,10 +208,15 @@ function main(){
   /* 断点续玩 */
   if (DJ.has("last_sent")){
     $("stage1").classList.add("hide");
-    $("lastline").classList.add("on");
+    const ll = $("lastline"); if (ll){ ll.classList.add("on"); ll.style.display = "flex"; }
   } else if (DJ.has("echo_0808")){
     $("stage1").classList.add("hide");
     setTimeout(startLast, 800);
+    /* 保底：断点续玩若因故没亮，8 秒后再补一次 */
+    clearTimeout(window.__lastGuard);
+    window.__lastGuard = setTimeout(() => {
+      if (!DJ.has("last_sent")) startLast();
+    }, 8000);
   }
 
   DJ.envHint("月亮只会这一种光。看了八年了。", "ec1", 120);

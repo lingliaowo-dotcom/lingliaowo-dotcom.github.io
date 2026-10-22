@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>对方手机</title>
-<link rel="stylesheet" href="assets/style.css?v=96">
+<link rel="stylesheet" href="assets/style.css?v=97">
 <style>
   body{background:#04060b;overflow:hidden}
   .stage{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px 14px}
@@ -60,6 +60,11 @@
     opacity:0;transition:opacity 1.4s,border-color .3s;display:none}
   .tofinal.show{display:inline-block;opacity:1}
   .tofinal:hover{border-color:#4a7dd6}
+  /* 中间闪烁的「你准备好了吗」：呼吸式明暗 */
+  .readyhint{color:#aebfd8;font-size:15px;letter-spacing:14px;margin-top:24px;
+    opacity:0;transition:opacity 1.2s;text-align:center;user-select:none}
+  .readyhint.blink{opacity:1;animation:rhblink 1.6s ease-in-out infinite}
+  @keyframes rhblink{0%,100%{opacity:.25}50%{opacity:1}}
   .skip{position:fixed;right:14px;bottom:12px;color:#22304a;font-size:10.5px;letter-spacing:2px;
     cursor:pointer;text-decoration:underline dotted;display:none}
   .skip.show{display:block}
@@ -88,11 +93,12 @@
   </div>
   <div id="waitDot" style="color:#33415e;font-size:14px;letter-spacing:6px;margin-top:20px;
     opacity:0;transition:opacity 1s;text-align:center">· · ·</div>
+  <div class="readyhint" id="readyHint">你准备好了吗</div>
   <button class="tofinal" id="tofinal">去 见 他</button>
 </div>
 <div class="skip" id="skip">跳过这一页</div>
 
-<script src="assets/game.js?v=96"></script>
+<script src="assets/game.js?v=97"></script>
 <script>
 if (DJ.gate(11)) main();
 function main(){
@@ -357,14 +363,20 @@ function main(){
     $("finalText").classList.add("show");
     const fls = document.querySelectorAll(".fl");
     fls.forEach((f, i) => setTimeout(() => { f.classList.add("on"); DJ.sfx.type(); }, 600 + i * 1800));
-    /* 最后一行文案出来时给呼吸点，告诉玩家"还有"；按钮紧接着出现，不再干等 */
-    setTimeout(() => { $("waitDot").style.opacity = 1; }, 600 + (fls.length - 1) * 1800 + 600);
+    /* 最后一行文案出来时给呼吸点，然后闪烁「你准备好了吗」，最后才出按钮 */
+    const tLast = 600 + (fls.length - 1) * 1800;
+    setTimeout(() => { $("waitDot").style.opacity = 1; }, tLast + 600);
     setTimeout(() => {
       $("waitDot").style.opacity = 0;
+      $("readyHint").classList.add("blink");
+    }, tLast + 1400);
+    setTimeout(() => {
+      $("readyHint").classList.remove("blink");
+      $("readyHint").style.opacity = 0;
       $("tofinal").classList.add("show");
       $("skip").classList.add("show");
       DJ.flag("hisview_done");
-    }, 600 + (fls.length - 1) * 1800 + 1800);
+    }, tLast + 3800);
   }
 
   $("phone").onclick = () => {
@@ -389,8 +401,13 @@ function main(){
     $("phone").style.opacity = .18;
     $("finalText").classList.add("show");
     document.querySelectorAll(".fl").forEach(f => f.classList.add("on"));
-    $("tofinal").classList.add("show");
-    $("skip").classList.add("show");
+    $("readyHint").classList.add("blink");
+    setTimeout(() => {
+      $("readyHint").classList.remove("blink");
+      $("readyHint").style.opacity = 0;
+      $("tofinal").classList.add("show");
+      $("skip").classList.add("show");
+    }, 2400);
   } else {
     render(0);
   }
