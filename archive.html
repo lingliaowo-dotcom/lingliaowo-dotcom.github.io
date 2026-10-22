@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
@@ -48,6 +48,11 @@
   .chatcard .msg{color:#615a4b;font-size:17px;letter-spacing:2px;line-height:2;min-height:60px}
   .door{margin-top:26px;text-align:center;display:none}
   .door.show{display:block;animation:fadein 1s ease both}
+  /* 从面具走进来：系统先呛一口 */
+  #ghostflash{position:fixed;inset:0;background:#04060a;display:flex;align-items:center;justify-content:center;
+    z-index:95;pointer-events:none;opacity:0;transition:opacity .5s}
+  #ghostflash.on{opacity:1}
+  #ghostflash .gm{color:#c0564f;font-family:var(--mono);font-size:17px;letter-spacing:3px;text-align:center;padding:0 24px;line-height:2}
 </style>
 <link rel="stylesheet" href="assets/skin-bbs.css?v=97"></head>
 <body>
@@ -130,6 +135,8 @@
   </div>
 </div>
 
+<div id="ghostflash"><div class="gm" id="ghostMsg"></div></div>
+
 <div id="envhint"></div>
 <script src="assets/game.js?v=97"></script>
 <script>
@@ -137,6 +144,27 @@ if (DJ.gate(10)) main();
 function main(){
   DJ.unlock(10);
   const $ = id => document.getElementById(id);
+
+  /* 从面具走进档案室：门还没关上，系统先开口 */
+  if (/mask\.html/.test(document.referrer)) {
+    const gf = $("ghostflash"), gm = $("ghostMsg");
+    const gt = "我不是访客。我是你删掉的草稿。";
+    let gi = 0;
+    document.body.classList.add("flash");
+    setTimeout(() => document.body.classList.remove("flash"), 700);
+    setTimeout(() => {
+      gf.classList.add("on");
+      DJ.sfx.err();
+      const gtimer = setInterval(() => {
+        gm.textContent = gt.slice(0, ++gi);
+        if (gi % 3 === 0) DJ.sfx.type();
+        if (gi >= gt.length) {
+          clearInterval(gtimer);
+          setTimeout(() => gf.classList.remove("on"), 900);
+        }
+      }, 75);
+    }, 180);
+  }
 
   /* 涂黑姓名 */
   $("redact").onclick = () => {
