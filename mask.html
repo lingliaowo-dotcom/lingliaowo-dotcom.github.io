@@ -250,11 +250,11 @@ function main(){
   };
 
   $("crackBtn").onclick = () => {
-    DJ.sfx.ok(); DJ.unlock(12);
-    DJ.envHintNow("面具底下，掉出来一张折了八折的纸。展开：最后一页。");
+    DJ.sfx.ok(); DJ.unlock(10);
+    DJ.envHintNow("面具底下，掉出来一张折了八折的纸。展开：市第八医院 · 心理健康档案系统 · 查询编号 0808-08。");
     $("crackBtn").style.pointerEvents = "none";
     setTimeout(() => { document.body.classList.add("flash"); }, 2600);
-    setTimeout(() => { location.href = "final.html"; }, 3000);
+    setTimeout(() => { location.href = "archive.html"; }, 3000);
   };
 
   /* 环境提示 */
