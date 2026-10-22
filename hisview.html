@@ -55,15 +55,13 @@
     transform:translateY(10px);transition:all 1.2s}
   .fl.on{opacity:1;transform:none}
   .fl.red{color:#e8b5b0}
-  .tofinal{margin-top:34px;background:none;border:1px solid #2c3a52;color:#aebfd8;
-    padding:12px 38px;border-radius:3px;cursor:pointer;letter-spacing:4px;font-size:14px;
-    opacity:0;transition:opacity 1.4s,border-color .3s;display:none}
-  .tofinal.show{display:inline-block;opacity:1}
-  .tofinal:hover{border-color:#4a7dd6}
-  /* 中间闪烁的「你准备好了吗」：呼吸式明暗 */
+  /* 中间闪烁的「你准备好了吗」：呼吸式明暗，点击进入结尾 */
   .readyhint{color:#aebfd8;font-size:15px;letter-spacing:14px;margin-top:24px;
-    opacity:0;transition:opacity 1.2s;text-align:center;user-select:none}
+    opacity:0;transition:opacity 1.2s;border-bottom:1px solid transparent;
+    text-align:center;user-select:none;cursor:pointer}
   .readyhint.blink{opacity:1;animation:rhblink 1.6s ease-in-out infinite}
+  .readyhint.ready{opacity:1;animation:none;border-bottom-color:#4a7dd6}
+  .readyhint.ready:hover{color:#c9d6ea}
   @keyframes rhblink{0%,100%{opacity:.25}50%{opacity:1}}
   .skip{position:fixed;right:14px;bottom:12px;color:#22304a;font-size:10.5px;letter-spacing:2px;
     cursor:pointer;text-decoration:underline dotted;display:none}
@@ -94,7 +92,6 @@
   <div id="waitDot" style="color:#33415e;font-size:14px;letter-spacing:6px;margin-top:20px;
     opacity:0;transition:opacity 1s;text-align:center">· · ·</div>
   <div class="readyhint" id="readyHint">你准备好了吗</div>
-  <button class="tofinal" id="tofinal">去 见 他</button>
 </div>
 <div class="skip" id="skip">跳过这一页</div>
 
@@ -370,10 +367,10 @@ function main(){
       $("waitDot").style.opacity = 0;
       $("readyHint").classList.add("blink");
     }, tLast + 1400);
+    /* 闪烁 2.4 秒后，文字保持可见，点击即可进入结尾 */
     setTimeout(() => {
       $("readyHint").classList.remove("blink");
-      $("readyHint").style.opacity = 0;
-      $("tofinal").classList.add("show");
+      $("readyHint").classList.add("ready");
       $("skip").classList.add("show");
       DJ.flag("hisview_done");
     }, tLast + 3800);
@@ -384,7 +381,8 @@ function main(){
     DJ.sfx.click();
     render(++step);
   };
-  $("tofinal").onclick = () => {
+  $("readyHint").onclick = () => {
+    if (!$("readyHint").classList.contains("ready")) return;
     DJ.unlock(12); DJ.sfx.ok();
     document.body.classList.add("flash");
     setTimeout(() => location.href = "final.html", 420);
@@ -404,8 +402,7 @@ function main(){
     $("readyHint").classList.add("blink");
     setTimeout(() => {
       $("readyHint").classList.remove("blink");
-      $("readyHint").style.opacity = 0;
-      $("tofinal").classList.add("show");
+      $("readyHint").classList.add("ready");
       $("skip").classList.add("show");
     }, 2400);
   } else {
