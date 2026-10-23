@@ -29,7 +29,17 @@
   #endo{position:fixed;inset:0;background:#000;display:none;flex-direction:column;
     align-items:center;justify-content:center;z-index:100}
   #endo.show{display:flex;animation:fadein 2.5s ease both}
-  #bflyLogo{margin-bottom:40px}
+  #bflyLogo{margin-bottom:40px;position:relative}
+  .songFly{
+    position:absolute;color:#5a6a84;font-size:13px;letter-spacing:3px;
+    opacity:0;transition:opacity 1.6s;text-shadow:0 0 8px rgba(0,0,0,.8);
+    pointer-events:none;white-space:nowrap;
+  }
+  .songFly.on{opacity:1;animation:sway 3.2s ease-in-out infinite}
+  @keyframes sway{
+    0%,100%{transform:rotate(-1.2deg) translateX(-3px)}
+    50%{transform:rotate(1.2deg) translateX(3px)}
+  }
   #readlog{color:#6d80a0;font-size:13px;letter-spacing:3px;line-height:2.4;text-align:center;min-height:120px}
   .readline{opacity:0;transition:opacity .8s}
   .readline.on{opacity:1}
@@ -151,15 +161,23 @@ function main(){
       mf.style.opacity = 1;
       DJ.sfx.read();
     }, 1200);
-    /* 最后的最后：不是台词，是歌 */
-    const box = $("synth");
+    /* 最后的最后：不是台词，是歌——围绕蝴蝶摆动 */
+    const fly = $("bflyLogo");
     const song = ["如此生活30年", "直到大廈崩塌", "雲層深處的黑暗啊", "淹沒心底的景觀"];
+    /* 四句分别挂在蝴蝶的左上、右上、左下、右下 */
+    const poses = [
+      { top:"-10px", left:"-180px", rotate:"-6deg" },
+      { top:"-10px", right:"-180px", rotate:"6deg" },
+      { bottom:"-10px", left:"-180px", rotate:"6deg" },
+      { bottom:"-10px", right:"-180px", rotate:"-6deg" },
+    ];
     song.forEach((s, i) => {
       setTimeout(() => {
         const d = document.createElement("div");
-        d.className = "readline";
+        d.className = "songFly";
         d.textContent = s;
-        box.appendChild(d);
+        Object.assign(d.style, poses[i]);
+        fly.appendChild(d);
         requestAnimationFrame(() => d.classList.add("on"));
         DJ.sfx.type();
       }, 7200 + i * 1800);
