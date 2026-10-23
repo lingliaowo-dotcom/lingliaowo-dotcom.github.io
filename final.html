@@ -68,31 +68,15 @@
   <div id="readlog"></div>
   <div id="synth"></div>
   <div id="mirrorFinal"></div>
-  <div id="credits">
-    未读 8 → 已读 8 · 大吉<br>
-    <br>
-    他找了那么久的灵魂共鸣者，<br>
-    一直在镜子里，陪他熬过了每一个 08:08。<br>
-    <br>
-    <a id="backRead" href="chat.html">回到未读</a><br>
-    <br>
-    <span id="saveCard" style="display:none;color:#aebfd8;border:1px solid #2c3a52;border-radius:3px;
-      padding:7px 22px;cursor:pointer;letter-spacing:4px">◈ 保存一张卡片，替他发出去</span>
-  </div>
 </div>
 
 <div id="envhint"></div>
 <script src="assets/game.js?v=98"></script>
 <script>
-const PEEK = location.search.indexOf("peek") !== -1; /* 主页彩蛋：不写存档，直接看结尾 */
-if (PEEK || DJ.gate(11)) main();
+  const PEEK = location.search.indexOf("peek") !== -1; /* 主页彩蛋：不写存档，直接看结尾 */
+  if (PEEK || DJ.gate(11)) main();
 function main(){
   if (!PEEK) DJ.unlock(11);
-  if (PEEK){ /* 参观者没有进度，「回到未读」会被第 2 章门禁弹回序章，改回主页 */
-    const bl = document.getElementById("backRead");
-    bl.href = "home.html";
-    bl.textContent = "回到主页";
-  }
   const $ = id => document.getElementById(id);
 
   /* ---------- 阶段一：顺其自然，永远错误 ---------- */
@@ -167,8 +151,6 @@ function main(){
       mf.style.opacity = 1;
       DJ.sfx.read();
     }, 1200);
-    setTimeout(() => { $("credits").style.opacity = 1; }, 4200);
-    setTimeout(() => { $("saveCard").style.display = "inline-block"; }, 5800);
     /* 最后的最后：不是台词，是歌 */
     const box = $("synth");
     const song = ["如此生活30年", "直到大廈崩塌", "雲層深處的黑暗啊", "淹沒心底的景觀"];
@@ -183,65 +165,6 @@ function main(){
       }, 7200 + i * 1800);
     });
   }
-
-  /* ---------- 通关分享卡片 ---------- */
-  $("saveCard").onclick = () => {
-    const c = document.createElement("canvas");
-    c.width = 720; c.height = 960;
-    const x = c.getContext("2d");
-    /* 底 */
-    x.fillStyle = "#04070d"; x.fillRect(0, 0, 720, 960);
-    /* 边框 */
-    x.strokeStyle = "#1c2c4a"; x.lineWidth = 1;
-    x.strokeRect(28, 28, 664, 904);
-    /* 白蝴蝶（与游戏 LOGO 同一笔迹） */
-    const wing = new Path2D("M12 12 C9 6, 3 5, 3 10 C3 14, 8 14, 11 12.5 Z");
-    const wing2 = new Path2D("M12 12 C15 6, 21 5, 21 10 C21 14, 16 14, 13 12.5 Z");
-    const body = new Path2D("M12 11.4 a1.2 3.2 0 1 0 0.001 0 Z");
-    x.save();
-    x.translate(360 - 150, 150); x.scale(14.3, 14.3);
-    x.fillStyle = "#dfe5ee";
-    x.fill(wing); x.fill(wing2); x.fill(body);
-    x.restore();
-    /* 名字 */
-    x.textAlign = "center";
-    x.fillStyle = "#e8edf5";
-    x.font = "300 44px 'Songti SC','STSong',serif";
-    x.fillText((DJ.state.name || "X").split("").join(" "), 360, 470);
-    /* 已读 */
-    x.fillStyle = "#6d80a0";
-    x.font = "300 22px 'PingFang SC',sans-serif";
-    x.fillText("已 读  0 8 : 0 8", 360, 560);
-    /* 留白答案（若有） */
-    const blank = (DJ.state.blank || "").trim();
-    if (blank){
-      x.fillStyle = "#8b9ab5";
-      x.font = "300 19px 'Songti SC','STSong',serif";
-      x.fillText("「" + blank.slice(0, 12) + "」", 360, 620);
-    } else {
-      x.fillStyle = "#33415e";
-      x.font = "300 17px 'Songti SC','STSong',serif";
-      x.fillText("（空白也是答案）", 360, 620);
-    }
-    /* 大吉印 */
-    x.fillStyle = "#9e3f39";
-    x.fillRect(312, 700, 96, 96);
-    x.fillStyle = "#f4e9e4";
-    x.font = "600 34px 'Songti SC','STSong',serif";
-    x.fillText("大", 360, 740);
-    x.fillText("吉", 360, 782);
-    /* 落款 */
-    x.fillStyle = "#33415e";
-    x.font = "300 15px 'PingFang SC',sans-serif";
-    x.fillText("《 大 吉 》 · 通 关 纪 念 · 黑 底 白 蝴 蝶", 360, 880);
-    /* 下载 */
-    const a = document.createElement("a");
-    a.download = "大吉-已读0808.png";
-    a.href = c.toDataURL("image/png");
-    a.click();
-    DJ.sfx.read();
-    $("saveCard").textContent = "◈ 已保存。替他发出去吧。";
-  };
 
   /* 环境提示（温柔到最后一刻） */
   DJ.envHint("这四个字，你试过按规矩来。这次，不按规矩试试。", "fn1", 45);
