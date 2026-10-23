@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
@@ -35,7 +35,7 @@
   .readline.on{opacity:1}
   #synth{margin-top:22px;color:#8b9ab5;font-size:13.5px;letter-spacing:3px;line-height:2.6;text-align:center;min-height:20px}
   #synth .kline{color:#aebfd8}
-  #mirrorFinal{margin-top:30px;color:#e8edf5;font-size:17px;letter-spacing:6px;opacity:0;transition:opacity 2.5s}
+  #mirrorFinal{margin-top:30px;color:#e8edf5;font-size:17px;letter-spacing:4px;line-height:2.4;text-align:center;opacity:0;transition:opacity 2.5s;white-space:pre-line}
   #credits{margin-top:46px;color:#33415e;font-size:11.5px;letter-spacing:4px;opacity:0;transition:opacity 2s;text-align:center;line-height:2.4}
   #credits a{color:#5a6a84;text-decoration:none;letter-spacing:4px}
   #credits a:hover{color:#aebfd8}
@@ -228,7 +228,7 @@ function main(){
       }, after);
       setTimeout(() => {
         const mf = $("mirrorFinal");
-        mf.innerHTML = "镜中人：<span style='letter-spacing:10px'>" + (DJ.state.name || "X") + "</span>";
+        mf.textContent = "鏡中人\n你站在玻璃前。玻璃裡的那個人，\n鬍子拉碴，眼神陌生，胸前沒有廠牌。\n你盯了他很久。他也盯著你。\n然後你笑了。他也笑了。\n這場對視，持續了三十年。";
         mf.style.opacity = 1;
       }, after + 2600);
       /* 最后一击：病历那道题，在这里答 */
