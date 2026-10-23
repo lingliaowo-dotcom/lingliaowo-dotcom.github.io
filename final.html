@@ -160,113 +160,28 @@ function main(){
     const e = $("endo"); e.classList.add("show");
     DJ.sfx.read();
 
-    const log = $("readlog");
-    const msgs = [
-      "「今天也是元气满满的一天！！」", "「在吗」", "「问你个事，特严肃的」",
-      "「你也会吗」", "「算了。你好。初次见面。」",
-      "「其实我一直都在。」", "「我没事。」", "「其实我」", "「晚安。」"
-    ];
-    msgs.forEach((m, i) => {
+    /* 镜中人独白 */
+    setTimeout(() => {
+      const mf = $("mirrorFinal");
+      mf.textContent = "鏡中人\n你站在玻璃前。玻璃裡的那個人，\n鬍子拉碴，眼神陌生，胸前沒有廠牌。\n你盯了他很久。他也盯著你。\n然後你笑了。他也笑了。\n這場對視，持續了三十年。";
+      mf.style.opacity = 1;
+      DJ.sfx.read();
+    }, 1200);
+    setTimeout(() => { $("credits").style.opacity = 1; }, 4200);
+    setTimeout(() => { $("saveCard").style.display = "inline-block"; }, 5800);
+    /* 最后的最后：不是台词，是歌 */
+    const box = $("synth");
+    const song = ["如此生活30年", "直到大廈崩塌", "雲層深處的黑暗啊", "淹沒心底的景觀"];
+    song.forEach((s, i) => {
       setTimeout(() => {
         const d = document.createElement("div");
         d.className = "readline";
-        d.textContent = m + " —— 已读";
-        log.appendChild(d);
+        d.textContent = s;
+        box.appendChild(d);
         requestAnimationFrame(() => d.classList.add("on"));
         DJ.sfx.type();
-        if (i === msgs.length - 1){
-          setTimeout(() => {
-            const last = document.createElement("div");
-            last.className = "readline";
-            last.innerHTML = "<span style='color:#aebfd8'>已读 08:08</span>";
-            log.appendChild(last);
-            requestAnimationFrame(() => last.classList.add("on"));
-            DJ.sfx.read();
-          }, 1200);
-          scheduleSynth();
-        }
-      }, 900 + i * 1100);
+      }, 7200 + i * 1800);
     });
-
-    /* 私人层解禁：念的不是台词，是玩家自己的存档。
-       ——这是全游戏唯一一处"确认"，前面七章零指纹攒的账，在这里合上。 */
-    function scheduleSynth(){
-      const base = 900 + (msgs.length - 1) * 1100 + 1200 + 1600;
-      const synth = [];
-      if (DJ.has("sent_any"))     synth.push("你发出去的每一句话，都只有一个人读过。");
-      if (DJ.has("saw_recalled")) synth.push("你按住过那条灰色的消息。按了很久。");
-      if (DJ.has("went_still"))   synth.push("你试过整整三十秒什么都不做。它记住了。");
-      if (DJ.has("saw_8_qian"))   synth.push("你摇了八次签。第八支，等了你很久。");
-      if (DJ.has("read_bin"))     synth.push("你读过那些被删掉的话。删掉，不等于没说过。");
-      if (DJ.has("found_floor8")) synth.push("第 8 页你进去了。你知道那扇门为什么为你开。");
-      if (DJ.has("butterfly_8"))  synth.push("那只黑白蝴蝶你点了八下。第八下，是它替你数的。");
-      if (DJ.has("biji_997"))     synth.push("99.7%。剩下的 0.3%，是他说不出口的部分。");
-      if (DJ.has("cloud_done"))   synth.push("云屉里那段 8 秒的录音，你听完了整段空白。");
-      if (DJ.has("radio_listened")) synth.push("八年只播一句话的电台，第八夜之后对你说了实话。");
-      if (DJ.has("photos_done"))  synth.push("那条草稿你看见了。两个字，存了 2920 天。");
-      if (DJ.has("hospital_read")) synth.push("病历上那道没答的题，他一直等到最后一页。");
-      if (!synth.length)          synth.push("你走到了这里。一步没少。");
-      const box = $("synth");
-      synth.forEach((s, i) => {
-        setTimeout(() => {
-          const d = document.createElement("div");
-          d.className = "readline";
-          d.textContent = s;
-          box.appendChild(d);
-          requestAnimationFrame(() => d.classList.add("on"));
-          DJ.sfx.type();
-        }, base + i * 1300);
-      });
-      const after = base + synth.length * 1300 + 1000;
-      setTimeout(() => {
-        const k = document.createElement("div");
-        k.className = "readline kline";
-        k.textContent = "它什么都没有编。这些，全是你自己走过的路。";
-        box.appendChild(k);
-        requestAnimationFrame(() => k.classList.add("on"));
-        DJ.sfx.read();
-      }, after);
-      setTimeout(() => {
-        const mf = $("mirrorFinal");
-        mf.textContent = "鏡中人\n你站在玻璃前。玻璃裡的那個人，\n鬍子拉碴，眼神陌生，胸前沒有廠牌。\n你盯了他很久。他也盯著你。\n然後你笑了。他也笑了。\n這場對視，持續了三十年。";
-        mf.style.opacity = 1;
-      }, after + 2600);
-      /* 最后一击：病历那道题，在这里答 */
-      setTimeout(() => {
-        const k2 = document.createElement("div");
-        k2.className = "readline kline";
-        k2.textContent = "病历上那道没人答上来的题，他其实早就答过了——「算好吗？」——他没有失约。他只是把约会地点，改成了这里。";
-        box.appendChild(k2);
-        requestAnimationFrame(() => k2.classList.add("on"));
-        DJ.sfx.read();
-      }, after + 3900);
-      /* 越过屏幕：它知道现在几点 */
-      setTimeout(() => {
-        const now = new Date();
-        const hh = String(now.getHours()).padStart(2, "0");
-        const mm = String(now.getMinutes()).padStart(2, "0");
-        const k3 = document.createElement("div");
-        k3.className = "readline";
-        k3.textContent = "顺便说一句：现在是你的 " + hh + ":" + mm + "。它一直在看时间——从你打开第一页起。";
-        box.appendChild(k3);
-        requestAnimationFrame(() => k3.classList.add("on"));
-        DJ.sfx.type();
-      }, after + 5600);
-      setTimeout(() => { $("credits").style.opacity = 1; }, after + 7600);
-      setTimeout(() => { $("saveCard").style.display = "inline-block"; }, after + 9200);
-      /* 最后的最后：不是台词，是歌 */
-      const song = ["如此生活30年", "直到大廈崩塌", "雲層深處的黑暗啊", "淹沒心底的景觀"];
-      song.forEach((s, i) => {
-        setTimeout(() => {
-          const d = document.createElement("div");
-          d.className = "readline";
-          d.textContent = s;
-          box.appendChild(d);
-          requestAnimationFrame(() => d.classList.add("on"));
-          DJ.sfx.type();
-        }, after + 10600 + i * 1800);
-      });
-    }
   }
 
   /* ---------- 通关分享卡片 ---------- */
